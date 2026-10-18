@@ -1,9 +1,10 @@
 ﻿# Автор: Ruslan_A7 (RA7). Розробник: Ruslan_A7 з Codex (GPT-6), OpenAI.
-# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.3.0.
+# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.4.0.
 param(
     [Parameter(Mandatory=$true)][guid]$SessionId,
     [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()][string]$Prompt,
-    [Parameter(Mandatory=$true)][string]$ProjectRoot
+    [Parameter(Mandatory=$true)][string]$ProjectRoot,
+    [ValidateSet('manual','automatic')][string]$ApprovalMode = 'manual'
 )
 $ErrorActionPreference = 'Stop'
 if (!(Test-Path -LiteralPath $ProjectRoot -PathType Container)) { throw 'Папка проєкту недоступна' }
@@ -24,6 +25,13 @@ try {
     $info.FileName = $command.Source
     # Командний рядок передається без shell. Текст кодується як один аргумент, а не виконується.
     $info.Arguments = '-C ' + (ConvertTo-WindowsArgument ([IO.Path]::GetFullPath($ProjectRoot))) + ' queue --thread ' + $SessionId.ToString() + ' --message ' + (ConvertTo-WindowsArgument $Prompt)
+    if ($ApprovalMode -eq 'automatic') {
+        $info.Arguments += ' --approve-for-me'
+    } else {
+        # Не успадковувати auto_review від попереднього автоматичного виклику.
+        $info.Arguments += ' -s workspace-write -c ' + (ConvertTo-WindowsArgument 'approval_policy="on-request"') + ' -c ' + (ConvertTo-WindowsArgument 'approvals_reviewer="user"')
+    }
+    if ($info.Arguments.Length -gt 30000) { throw 'Запит після екранування задовгий для Windows; скоротіть його' }
     $info.WorkingDirectory = [IO.Path]::GetFullPath($ProjectRoot)
     $info.UseShellExecute = $false
     $info.CreateNoWindow = $true
