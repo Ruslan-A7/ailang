@@ -1,0 +1,38 @@
+{
+  "project_version": "0.1.55",
+  "date": "2026-10-19",
+  "sources": [
+    {
+      "file": "codex-limits.py",
+      "sha256": "a841e9b988178885e597f9ee9d0f85f9653ca3c7602d084ed38268f39c99edc7"
+    },
+    {
+      "file": "deferred-cycle.ps1",
+      "sha256": "916c87d57377d32233c3f5b52579c0537c9b3f04f0277266e576fd591c6fc3c3"
+    },
+    {
+      "file": "deferred-first.ps1",
+      "sha256": "6a2eab7a7513f14152aaf5bf102341896315926887a8c1b9a1883c2d694bf9c5"
+    },
+    {
+      "file": "deferred-launch.ps1",
+      "sha256": "383ca5d45085e80ba5e1b55382c980609eeb3632d48b22c9a9e1013374c723be"
+    },
+    {
+      "file": "deferred-monitor.ps1",
+      "sha256": "ce7752f0010d3b8a08b3ab79177a04d78ea1dc9cabfd7c618770e9c7af7ae377"
+    },
+    {
+      "file": "deferred-resume.ps1",
+      "sha256": "986e734edfc23a90045c387521a1b34edec95ac633db536be02a96b38a89ed1a"
+    },
+    {
+      "file": "show-timers.cmd",
+      "sha256": "5d1e919dbdc9e5132c40019474b12a51d4eb661f211ecc9f4ebddf6621962fff"
+    },
+    {
+      "file": "shutdown-after-work.ps1",
+      "sha256": "8f571753b8084c10fd2ab9ce0d3fd7a6ef0978a97f2455a67aad3992ae752fb0"
+    }
+  ]
+}
