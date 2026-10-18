@@ -1,6 +1,16 @@
-@rem AILang v0.4.0. Author: Ruslan_A7 (RA7). Developer: RA7 with Codex (GPT-6), OpenAI. Created using AILang. License: https://ra7.iuid.cc/LICENSE
-@chcp 65001 >nul
-@rem Автор: Ruslan_A7 (RA7). Розробник: Codex (GPT-6), OpenAI, разом з автором.
-@rem Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. v0.4.0
+@rem AILang v0.4.1. Author: Ruslan_A7 (RA7). Developer: RA7 with Codex (GPT-6), OpenAI.
+@rem Created using AILang. License: https://ra7.iuid.cc/LICENSE
 @echo off
-start "" powershell.exe -NoProfile -STA -ExecutionPolicy RemoteSigned -WindowStyle Hidden -File "%~dp0Планувальник.ps1"
+setlocal
+if not exist "%~dp0Launch.ps1" goto missing
+start "" "%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoLogo -NoProfile -STA -ExecutionPolicy RemoteSigned -WindowStyle Hidden -File "%~dp0Launch.ps1"
+if errorlevel 1 goto failed
+exit /b 0
+:missing
+echo AILang: Launch.ps1 is missing. Restore the complete automation folder.
+pause
+exit /b 1
+:failed
+echo AILang: Windows PowerShell could not start.
+pause
+exit /b 1

@@ -1,0 +1,5 @@
+# Author: Ruslan_A7 (RA7). Developer: RA7 with Codex (GPT-6), OpenAI.
+# Created using AILang. License: https://ra7.iuid.cc/LICENSE. v0.4.1
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+*.psm1 text eol=crlf

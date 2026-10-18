@@ -1,5 +1,5 @@
 ﻿# Автор: Ruslan_A7 (RA7). Розробник: Ruslan_A7 з Codex (GPT-6), OpenAI.
-# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.4.0.
+# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.4.1.
 param()
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'Сховище.psm1') -Force
@@ -22,10 +22,14 @@ $script:deliveryId = $null
 $script:quotaCancelled = $false
 try {
     try { $ownsMutex = $instance.WaitOne(0) } catch [Threading.AbandonedMutexException] { $ownsMutex = $true }
-    if (!$ownsMutex) { return }
+    if (!$ownsMutex) {
+        Add-Type -AssemblyName PresentationFramework
+        $null = [Windows.MessageBox]::Show('Планувальник цього проєкту вже відкритий. Перейдіть до його вікна на панелі завдань.','AILang')
+        return
+    }
     Add-Type -AssemblyName PresentationFramework
     [xml]$markup = @'
-<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="AILang · планувальник v0.4.0" Width="740" Height="880" MinWidth="680" MinHeight="690" Background="#101C2B" Foreground="#E5EDF8" WindowStartupLocation="CenterScreen">
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="AILang · планувальник v0.4.1" Width="740" Height="880" MinWidth="680" MinHeight="690" Background="#101C2B" Foreground="#E5EDF8" WindowStartupLocation="CenterScreen">
  <Window.Resources>
   <Style TargetType="Button"><Setter Property="Foreground" Value="#10222C"/><Setter Property="MinHeight" Value="32"/></Style>
   <Style TargetType="TextBox"><Setter Property="Foreground" Value="#10222C"/></Style>
@@ -297,8 +301,8 @@ try {
     $timer.Start()
     $null = $window.ShowDialog()
 } catch {
-    if ('System.Windows.MessageBox' -as [type]) { $null = [Windows.MessageBox]::Show('Не вдалося відкрити планувальник. Перевірте PowerShell/WPF та локальну історію.','AILang') }
-    else { Write-Error 'Не вдалося завантажити PowerShell/WPF' }
+    # Зовнішній Launch.ps1 охоплює також імпорт модулів до цього try.
+    throw
 } finally {
     if ($script:job) { Stop-Job -Job $script:job; Remove-Job -Job $script:job }
     if ($ownsMutex) { $instance.ReleaseMutex() }
