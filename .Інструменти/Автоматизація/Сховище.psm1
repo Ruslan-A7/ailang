@@ -1,5 +1,5 @@
 ﻿# Автор: Ruslan_A7 (RA7). Розробник: Ruslan_A7 з Codex (GPT-6), OpenAI.
-# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.6.1.
+# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.6.2.
 $script:ProjectRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $script:StateRoot = Join-Path $script:ProjectRoot '.Стан/Автоматизація'
 function Assert-LocalPath([string]$Path) {
