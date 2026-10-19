@@ -1,5 +1,5 @@
 ﻿# Автор: Ruslan_A7 (RA7). Розробник: RA7 з Codex (GPT-6), OpenAI.
-# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.6.2.
+# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.6.3.
 param([ValidateRange(5,60)][int]$TimeoutSeconds=25)
 $ErrorActionPreference='Stop'
 Import-Module (Join-Path $PSScriptRoot 'Codex-Rpc.psm1')
