@@ -1,5 +1,5 @@
 ﻿# Автор: Ruslan_A7 (RA7). Розробник: Ruslan_A7 з Codex (GPT-6), OpenAI.
-# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.4.1.
+# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.5.0.
 param([ValidateRange(5,60)][int]$TimeoutSeconds = 20)
 $ErrorActionPreference = 'Stop'
 $process = $null
@@ -36,7 +36,7 @@ try {
         }
         throw 'rpc_timeout'
     }
-    Send-Rpc @{id=1;method='initialize';params=@{clientInfo=@{name='ailang_limits';title='AILang limits';version='0.4.1'}}}
+    Send-Rpc @{id=1;method='initialize';params=@{clientInfo=@{name='ailang_limits';title='AILang limits';version='0.5.0'}}}
     $null = Read-Rpc 1
     Send-Rpc @{method='initialized';params=@{}}
     Send-Rpc @{id=2;method='account/rateLimits/read'}

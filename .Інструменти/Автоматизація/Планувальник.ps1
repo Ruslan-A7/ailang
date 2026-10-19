@@ -1,5 +1,5 @@
 ﻿# Автор: Ruslan_A7 (RA7). Розробник: Ruslan_A7 з Codex (GPT-6), OpenAI.
-# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.4.1.
+# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.5.0.
 param()
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'Сховище.psm1') -Force
@@ -29,7 +29,7 @@ try {
     }
     Add-Type -AssemblyName PresentationFramework
     [xml]$markup = @'
-<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="AILang · планувальник v0.4.1" Width="740" Height="880" MinWidth="680" MinHeight="690" Background="#101C2B" Foreground="#E5EDF8" WindowStartupLocation="CenterScreen">
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="AILang · планувальник v0.5.0" Width="740" Height="880" MinWidth="680" MinHeight="690" Background="#101C2B" Foreground="#E5EDF8" WindowStartupLocation="CenterScreen">
  <Window.Resources>
   <Style TargetType="Button"><Setter Property="Foreground" Value="#10222C"/><Setter Property="MinHeight" Value="32"/></Style>
   <Style TargetType="TextBox"><Setter Property="Foreground" Value="#10222C"/></Style>
@@ -42,11 +42,12 @@ try {
   <TextBox Name="Session" Margin="0,5,0,12" Padding="8"/>
   <TextBlock Text="Запит на продовження (не вводьте секрети)"/>
   <TextBox Name="Prompt" AcceptsReturn="True" TextWrapping="Wrap" Height="110" Padding="8" Margin="0,5,0,10"/>
-  <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+  <WrapPanel Margin="0,0,0,10">
    <Button Name="NewPrompt" Content="Новий запит" Padding="12,6"/>
    <Button Name="SavePrompt" Content="Зберегти запит" Padding="12,6" Margin="10,0,0,0"/>
    <Button Name="Journal" Content="Журнал схвалень" Padding="12,6" Margin="10,0,0,0"/>
-  </StackPanel>
+   <Button Name="SendNow" Content="Надіслати зараз" Padding="12,6" Margin="10,0,0,0" ToolTip="Одноразова доставка з ручними схваленнями після перевірки квот. Поточний відлік буде скасовано."/>
+  </WrapPanel>
   <TextBlock Text="Історія: чернетки, спроби та прийняті queue запити"/>
   <CheckBox Name="SentOnly" Content="Показувати лише надіслані запити" Foreground="#E5EDF8" Margin="0,5,0,3"/>
   <ComboBox Name="History" Margin="0,5,0,10" Padding="6" DisplayMemberPath="label"/>
@@ -75,7 +76,7 @@ try {
 '@
     $window = [Windows.Markup.XamlReader]::Load([Xml.XmlNodeReader]::new($markup))
     $controls = @{}
-    foreach ($name in @('Session','Prompt','History','Minutes','Start','Stop','Automatic','Repeat','Limits','Reset','Countdown','Quota','Status','Present','ApprovalStatus','AutoStart','NewPrompt','SavePrompt','SentOnly','Journal')) { $controls[$name] = $window.FindName($name) }
+    foreach ($name in @('Session','Prompt','History','Minutes','Start','Stop','Automatic','Repeat','Limits','Reset','Countdown','Quota','Status','Present','ApprovalStatus','AutoStart','NewPrompt','SavePrompt','SentOnly','Journal','SendNow')) { $controls[$name] = $window.FindName($name) }
     $controls.Prompt.Text = 'Перечитай AGENTS.md, поточні налаштування та план. Перевір доступні ліміти. Продовжуй погоджену роботу з місця зупинки; зберігай результат і місце продовження. Не запускай тести без дозволу.'
     $settingsPaths = @('.Налаштування/Розробка/Проєкт.md','.Налаштування/Результат/Продукт.md','.Налаштування/Ліміти.md','.Налаштування/Дозволи.md')
     function Get-SettingsFingerprint {
@@ -145,6 +146,18 @@ try {
         catch { $controls.Status.Text = 'Не вдалося зберегти попередню чернетку' }
     })
     $controls.SavePrompt.Add_Click({ try { Save-Draft; $controls.Status.Text = 'Запит збережено в історії' } catch { $controls.Status.Text = 'Не вдалося зберегти запит' } })
+    $controls.SendNow.Add_Click({
+        try {
+            if ($script:job) { throw 'Дочекайтеся завершення поточної перевірки або доставки' }
+            # Для одноразової доставки ручне поле часу не потрібне.
+            $script:inputs = Read-Inputs -UseAutomaticInterval
+            Save-Draft
+            Stop-Automation 'Поточний відлік скасовано для одноразової доставки'
+            $controls.Repeat.IsChecked = $false
+            $script:inputs.approvalMode = 'manual'
+            Start-QuotaJob 'send-now'
+        } catch { $controls.Status.Text = $_.Exception.Message }
+    })
     $controls.SentOnly.Add_Checked({ Refresh-History })
     $controls.SentOnly.Add_Unchecked({ Refresh-History })
     $controls.Journal.Add_Click({
@@ -247,6 +260,10 @@ try {
             $blocked = @($quota.windows | Where-Object { ($_.minutes -eq 300 -and $_.remaining -le 10) -or ($_.minutes -eq 10080 -and $_.remaining -le 5) -or $_.remaining -le 0 })
             if ($finishedKind -eq 'display') { $controls.Status.Text = 'Квоти прочитано; запит не надсилався'; return }
             if (!$short.Count -or !$week.Count) { Stop-Automation 'Набір вікон квот не відповідає налаштованій політиці 5 годин / тиждень. Потрібна адаптація.'; return }
+            if ($finishedKind -eq 'send-now' -and $blocked.Count) {
+                Stop-Automation 'Недостатньо квот для негайного надсилання. Запит не надіслано; автоматичного повтору немає.'
+                return
+            }
             if ($finishedKind -eq 'reset' -or $blocked.Count) {
                 $resets = @($blocked | Where-Object resetUtc | ForEach-Object { [DateTime]::Parse($_.resetUtc).ToUniversalTime() })
                 if ($blocked.Count -and $resets.Count -eq $blocked.Count) {
@@ -258,10 +275,10 @@ try {
                 else { $controls.Status.Text = 'Квоти дозволяють роботу; запустіть таймер на потрібний час' }
                 return
             }
-            if (!$script:armed -or !$controls.Automatic.IsChecked) { $controls.Status.Text = 'Надсилання вимкнене'; return }
+            if ($finishedKind -ne 'send-now' -and (!$script:armed -or !$controls.Automatic.IsChecked)) { $controls.Status.Text = 'Надсилання вимкнене'; return }
             if ((Get-SettingsFingerprint) -ne $settingsFingerprint) { Stop-Automation 'Конфігурація змінилася; потрібен повторний перегляд'; return }
             # Перед доставкою перечитати присутність автора, але не підміняти знімок тексту/сеансу.
-            $script:inputs.approvalMode = if ($controls.Present.IsChecked) { 'manual' } else { 'automatic' }
+            $script:inputs.approvalMode = if ($finishedKind -eq 'send-now' -or $controls.Present.IsChecked) { 'manual' } else { 'automatic' }
             $outgoing = New-AILangScheduledPrompt -Prompt $script:inputs.prompt -SessionId $script:inputs.session -Mode $script:inputs.approvalMode
             if ($outgoing.Length -gt 24000) { Stop-Automation 'Запит із правилами журналювання задовгий; скоротіть власний текст'; return }
             $script:deliveryId = [guid]::NewGuid().ToString()

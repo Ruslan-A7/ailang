@@ -1,4 +1,4 @@
-@rem AILang v0.4.1. Author: Ruslan_A7 (RA7). Developer: RA7 with Codex (GPT-6), OpenAI.
+@rem AILang v0.5.0. Author: Ruslan_A7 (RA7). Developer: RA7 with Codex (GPT-6), OpenAI.
 @rem Created using AILang. License: https://ra7.iuid.cc/LICENSE
 @echo off
 setlocal
