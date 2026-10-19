@@ -7,7 +7,7 @@ From an author's idea to software that preserves its meaning.
 
 ![AILang — a bridge between human language and software code](.Результат/Медіа/ailang-banner-neural.png)
 
-**Current version: 0.6.3 · Ukrainian working specification · before the first stable release.**
+**Current version: 0.6.4 · Ukrainian working specification · before the first stable release.**
 
 AILang is a set of instructions, specifications, and rules that help AI agents correctly interpret software descriptions written in natural language and implement the author's intent using an appropriate technology stack.
 
@@ -32,7 +32,7 @@ The linked specification and detailed documentation are currently in Ukrainian. 
 2. In your root `AGENTS.md`, link to `.AILang/Інструкції/Agents.md` and instruct the agent to read it before starting work.
 3. Review the configuration templates in the package. Set your project's languages, stack, attribution, license, permissions, and Git policy.
 4. Describe your software in the source directory whose name is defined by your language settings.
-5. Ask the agent to read AILang, the settings, and the source. Initial structure creation is an explicit exception to the rules; subsequent changes to protected author-owned materials require appropriate permission.
+5. Ask the agent to read AILang, the settings, and the source. Initial creation of missing structure is allowed only as an explicitly defined exception, without overwriting existing materials. **Under the completed AILang rules, the agent must not modify the author's idea or the AILang source description/code in `.Джерело` / `.Source`, even at the author's request or with their permission. Only explicitly defined AILang exceptions apply; ordinary permission does not create another exception.** The agent records suggestions in the plan, and the author edits these materials personally. The agent implements and edits the resulting program code in the output directory.
 
 For example, an author's Markdown description might begin like this:
 
