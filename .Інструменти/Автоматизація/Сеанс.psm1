@@ -1,5 +1,5 @@
 ﻿# Автор: Ruslan_A7 (RA7). Розробник: RA7 з Codex (GPT-6), OpenAI.
-# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.6.4.
+# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.6.5.
 Import-Module (Join-Path $PSScriptRoot 'Сховище.psm1')
 function Read-AILangPreferences {
     $path = Get-AILangStatePath 'Сеанс.json'

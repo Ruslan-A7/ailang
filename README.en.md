@@ -7,7 +7,7 @@ From an author's idea to software that preserves its meaning.
 
 ![AILang — a bridge between human language and software code](.Результат/Медіа/ailang-banner-neural.png)
 
-**Current version: 0.6.4 · Ukrainian working specification · before the first stable release.**
+**Current version: 0.6.5 · Ukrainian working specification · before the first stable release.**
 
 AILang is a set of instructions, specifications, and rules that help AI agents correctly interpret software descriptions written in natural language and implement the author's intent using an appropriate technology stack.
 
@@ -50,21 +50,21 @@ This is an example of a requirements description. The agent selects the implemen
 
 ## Repository contents
 
-| Path | Purpose |
-| --- | --- |
-| `.Ідея` | Original author-owned materials |
-| `.Джерело` | Description of AILang's own development |
-| `.Результат/uk` | Current Ukrainian instruction package |
-| `.Результат/Медіа` | Logo and splash artwork |
-| `.Налаштування` | Settings for this project |
-| `.Документація` and `.План` | Implementation documentation, requirements, and continuation notes |
-| `.Інструменти/Автоматизація` | Windows scheduler for Codex |
+| Path (English equivalent) | Actual repository path | Purpose |
+| --- | --- | --- |
+| `.Idea` | `.Ідея` | Original author-owned materials |
+| `.Source` | `.Джерело` | Description of AILang's own development |
+| `.Result/uk` | `.Результат/uk` | Current Ukrainian instruction package |
+| `.Result/Media` | `.Результат/Медіа` | Logo and splash artwork |
+| `.Settings` | `.Налаштування` | Settings for this project |
+| `.Doc` and `.Plan` | `.Документація` and `.План` | Implementation documentation, requirements, and continuation notes |
+| `.Tools/Automation` | `.Інструменти/Автоматизація` | Windows scheduler for Codex |
 
-This repository develops AILang itself, so it has no root `.AILang` directory. In projects using AILang, that directory contains one selected localization. Other instruction-package translations are planned after completion of the first Ukrainian version. The repository paths above retain their actual Ukrainian names.
+This repository develops AILang itself, so it has no root `.AILang` directory. In projects using AILang, that directory contains one selected localization. Other instruction-package translations are planned after completion of the first Ukrainian version. English paths in the table are localized equivalents; use the actual Ukrainian paths to find files in this repository.
 
 ## Codex scheduler for Windows
 
-Launch [Показати таймери.cmd](.Інструменти/Автоматизація/Показати%20таймери.cmd). It requires Windows PowerShell 5.1 with WPF and an installed, authenticated Codex CLI supporting `queue` and app-server.
+Launch [Show timers.cmd](.Інструменти/Автоматизація/Показати%20таймери.cmd) (the actual filename is `Показати таймери.cmd`). It requires Windows PowerShell 5.1 with WPF and an installed, authenticated Codex CLI supporting `queue` and app-server.
 
 The scheduler provides a manual timer, a **05:05 (5 hours 5 minutes)** cycle, custom prompts, prompt history, a **«Надіслати зараз» (Send now)** button, quota checks, and a decision log. The session UUID persists between launches; the chat name appears alongside it when Codex provides one. The **Codex.exe…** button lets you select the CLI executable if needed. The scheduler's interface is currently Ukrainian.
 
