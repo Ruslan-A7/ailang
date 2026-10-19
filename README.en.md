@@ -7,7 +7,7 @@ From an author's idea to software that preserves its meaning.
 
 ![AILang — a bridge between human language and software code](.Результат/Медіа/ailang-banner-neural.png)
 
-**Current version: 0.6.5 · Ukrainian working specification · before the first stable release.**
+**Current version: 0.6.6 · Ukrainian working specification · before the first stable release.**
 
 AILang is a set of instructions, specifications, and rules that help AI agents correctly interpret software descriptions written in natural language and implement the author's intent using an appropriate technology stack.
 

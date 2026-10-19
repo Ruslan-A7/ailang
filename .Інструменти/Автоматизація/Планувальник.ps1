@@ -1,5 +1,5 @@
 ﻿# Автор: Ruslan_A7 (RA7). Розробник: Ruslan_A7 з Codex (GPT-6), OpenAI.
-# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.6.5.
+# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.6.6.
 param()
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'Сховище.psm1') -Force
@@ -7,6 +7,8 @@ Import-Module (Join-Path $PSScriptRoot 'Схвалення.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot 'Політика-запиту.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot 'Сеанс.psm1') -Force
 $projectRoot = Get-AILangRoot
+$projectVersion = [IO.File]::ReadAllText((Join-Path $projectRoot 'VERSION'),[Text.Encoding]::UTF8).Trim()
+if ($projectVersion -notmatch '^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)$') { throw 'Некоректна версія у VERSION: очікується X.Y.Z' }
 $rootHash = [Security.Cryptography.SHA256]::Create()
 try { $identity = [BitConverter]::ToString($rootHash.ComputeHash([Text.Encoding]::UTF8.GetBytes($projectRoot.ToLowerInvariant()))).Replace('-','') }
 finally { $rootHash.Dispose() }
@@ -30,7 +32,7 @@ try {
     }
     Add-Type -AssemblyName PresentationFramework
     [xml]$markup = @'
-<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="AILang · планувальник v0.6.5" Width="740" Height="880" MinWidth="680" MinHeight="690" Background="#101C2B" Foreground="#E5EDF8" WindowStartupLocation="CenterScreen">
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="AILang · планувальник" Width="740" Height="880" MinWidth="680" MinHeight="690" Background="#101C2B" Foreground="#E5EDF8" WindowStartupLocation="CenterScreen">
  <Window.Resources>
   <Style TargetType="Button"><Setter Property="Foreground" Value="#10222C"/><Setter Property="MinHeight" Value="32"/></Style>
   <Style TargetType="TextBox"><Setter Property="Foreground" Value="#10222C"/></Style>
@@ -83,6 +85,7 @@ try {
 </Window>
 '@
     $window = [Windows.Markup.XamlReader]::Load([Xml.XmlNodeReader]::new($markup))
+    $window.Title = 'AILang · планувальник v' + $projectVersion
     $controls = @{}
     foreach ($name in @('Session','Prompt','History','Minutes','Start','Stop','Automatic','Repeat','Limits','Reset','Countdown','Quota','Status','Present','ApprovalStatus','AutoStart','NewPrompt','SavePrompt','SentOnly','Journal','SendNow','ChatName','RefreshName','SelectCodex')) { $controls[$name] = $window.FindName($name) }
     $preferences=Read-AILangPreferences
