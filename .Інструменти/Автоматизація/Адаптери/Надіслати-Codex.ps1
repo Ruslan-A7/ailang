@@ -1,5 +1,5 @@
 ﻿# Автор: Ruslan_A7 (RA7). Розробник: Ruslan_A7 з Codex (GPT-6), OpenAI.
-# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.5.0.
+# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.6.0.
 param(
     [Parameter(Mandatory=$true)][guid]$SessionId,
     [Parameter(Mandatory=$true)][ValidateNotNullOrEmpty()][string]$Prompt,
@@ -8,7 +8,8 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 if (!(Test-Path -LiteralPath $ProjectRoot -PathType Container)) { throw 'Папка проєкту недоступна' }
-$command = Get-Command codex.exe -ErrorAction Stop
+Import-Module (Join-Path $PSScriptRoot '../Сеанс.psm1')
+$executable = Resolve-AILangCodex
 # Доставка через queue в наявний чат, без запуску незалежної exec-сесії.
 # Невизначений результат не повторюється: запит уже міг бути прийнятий сервером.
 if ($SessionId -eq [guid]::Empty) { throw 'Потрібен дійсний UUID сеансу' }
@@ -22,7 +23,7 @@ function ConvertTo-WindowsArgument([string]$Value) {
 $process = $null
 try {
     $info = [Diagnostics.ProcessStartInfo]::new()
-    $info.FileName = $command.Source
+    $info.FileName = $executable
     # Командний рядок передається без shell. Текст кодується як один аргумент, а не виконується.
     $info.Arguments = '-C ' + (ConvertTo-WindowsArgument ([IO.Path]::GetFullPath($ProjectRoot))) + ' queue --thread ' + $SessionId.ToString() + ' --message ' + (ConvertTo-WindowsArgument $Prompt)
     if ($ApprovalMode -eq 'automatic') {

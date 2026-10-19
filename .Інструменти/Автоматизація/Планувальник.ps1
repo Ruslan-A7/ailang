@@ -1,10 +1,11 @@
 ﻿# Автор: Ruslan_A7 (RA7). Розробник: Ruslan_A7 з Codex (GPT-6), OpenAI.
-# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.5.0.
+# Створено з використанням AILang. RA7 Open Free License: https://ra7.iuid.cc/LICENSE. Версія 0.6.0.
 param()
 $ErrorActionPreference = 'Stop'
 Import-Module (Join-Path $PSScriptRoot 'Сховище.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot 'Схвалення.psm1') -Force
 Import-Module (Join-Path $PSScriptRoot 'Політика-запиту.psm1') -Force
+Import-Module (Join-Path $PSScriptRoot 'Сеанс.psm1') -Force
 $projectRoot = Get-AILangRoot
 $rootHash = [Security.Cryptography.SHA256]::Create()
 try { $identity = [BitConverter]::ToString($rootHash.ComputeHash([Text.Encoding]::UTF8.GetBytes($projectRoot.ToLowerInvariant()))).Replace('-','') }
@@ -29,7 +30,7 @@ try {
     }
     Add-Type -AssemblyName PresentationFramework
     [xml]$markup = @'
-<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="AILang · планувальник v0.5.0" Width="740" Height="880" MinWidth="680" MinHeight="690" Background="#101C2B" Foreground="#E5EDF8" WindowStartupLocation="CenterScreen">
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" Title="AILang · планувальник v0.6.0" Width="740" Height="880" MinWidth="680" MinHeight="690" Background="#101C2B" Foreground="#E5EDF8" WindowStartupLocation="CenterScreen">
  <Window.Resources>
   <Style TargetType="Button"><Setter Property="Foreground" Value="#10222C"/><Setter Property="MinHeight" Value="32"/></Style>
   <Style TargetType="TextBox"><Setter Property="Foreground" Value="#10222C"/></Style>
@@ -39,7 +40,14 @@ try {
   <TextBlock Text="AILang · відкладене продовження" FontSize="23" Margin="0,0,0,8"/>
   <TextBlock Text="Доставка через Codex queue в наявний чат. Закриття вікна скасовує очікування, але не вже переданий запит." TextWrapping="Wrap" Margin="0,0,0,14"/>
   <TextBlock Text="UUID сеансу Codex (зі /status цільового чату)"/>
-  <TextBox Name="Session" Margin="0,5,0,12" Padding="8"/>
+  <Grid Margin="0,5,0,8"><Grid.ColumnDefinitions><ColumnDefinition Width="3*"/><ColumnDefinition Width="2*"/></Grid.ColumnDefinitions>
+   <TextBox Name="Session" Grid.Column="0" Padding="8"/>
+   <TextBlock Name="ChatName" Grid.Column="1" Text="Назва чату ще не отримана" TextWrapping="Wrap" Margin="12,0,0,0" VerticalAlignment="Center"/>
+  </Grid>
+  <WrapPanel Margin="0,0,0,10">
+   <Button Name="RefreshName" Content="Оновити назву чату" Padding="12,6"/>
+   <Button Name="SelectCodex" Content="Codex.exe…" Padding="12,6" Margin="10,0,0,0" ToolTip="Оберіть встановлений codex.exe, якщо його немає в PATH. Шлях зберігається лише локально."/>
+  </WrapPanel>
   <TextBlock Text="Запит на продовження (не вводьте секрети)"/>
   <TextBox Name="Prompt" AcceptsReturn="True" TextWrapping="Wrap" Height="110" Padding="8" Margin="0,5,0,10"/>
   <WrapPanel Margin="0,0,0,10">
@@ -76,7 +84,17 @@ try {
 '@
     $window = [Windows.Markup.XamlReader]::Load([Xml.XmlNodeReader]::new($markup))
     $controls = @{}
-    foreach ($name in @('Session','Prompt','History','Minutes','Start','Stop','Automatic','Repeat','Limits','Reset','Countdown','Quota','Status','Present','ApprovalStatus','AutoStart','NewPrompt','SavePrompt','SentOnly','Journal','SendNow')) { $controls[$name] = $window.FindName($name) }
+    foreach ($name in @('Session','Prompt','History','Minutes','Start','Stop','Automatic','Repeat','Limits','Reset','Countdown','Quota','Status','Present','ApprovalStatus','AutoStart','NewPrompt','SavePrompt','SentOnly','Journal','SendNow','ChatName','RefreshName','SelectCodex')) { $controls[$name] = $window.FindName($name) }
+    $preferences=Read-AILangPreferences
+    $script:codexExecutable=$preferences.codexExecutable
+    $controls.Session.Text=$preferences.session
+    $controls.ChatName.Tag=if ($preferences.name) {$preferences.session} else {''}
+    if ($preferences.name) { $controls.ChatName.Text=$preferences.name }
+    if (!$preferences.session) {
+        $recent=Read-AILangHistory | Sort-Object utc -Descending | Where-Object { $_.session -match '^[a-fA-F0-9-]{36}$' } | Select-Object -First 1
+        if ($recent) { $controls.Session.Text=$recent.session }
+    }
+    try { $script:codexExecutable=Resolve-AILangCodex } catch { $controls.Quota.Text='Оберіть встановлений codex.exe кнопкою вище' }
     $controls.Prompt.Text = 'Перечитай AGENTS.md, поточні налаштування та план. Перевір доступні ліміти. Продовжуй погоджену роботу з місця зупинки; зберігай результат і місце продовження. Не запускай тести без дозволу.'
     $settingsPaths = @('.Налаштування/Розробка/Проєкт.md','.Налаштування/Результат/Продукт.md','.Налаштування/Ліміти.md','.Налаштування/Дозволи.md')
     function Get-SettingsFingerprint {
@@ -95,6 +113,12 @@ try {
             if ($preview.Length -gt 65) { $preview = $preview.Substring(0,65) + '…' }
             $null = $controls.History.Items.Add([pscustomobject]@{label=($entry.utc + ' · ' + $entry.kind + ' · ' + $preview);entry=$entry})
         }
+        $notice=Get-AILangHistoryNotice
+        if ($notice) { $controls.Status.Text=$notice }
+    }
+    function Save-CurrentPreferences {
+        $name=if ($controls.ChatName.Tag -eq $controls.Session.Text.Trim()) { $controls.ChatName.Text } else { '' }
+        Save-AILangPreferences -Session $controls.Session.Text.Trim() -Name $name -CodexExecutable $script:codexExecutable
     }
     function Stop-Automation([string]$message) {
         $script:due = $null
@@ -104,6 +128,7 @@ try {
         $controls.Status.Text = $message
     }
     function Save-Draft {
+        Save-CurrentPreferences
         if (![string]::IsNullOrWhiteSpace($controls.Prompt.Text)) {
             Add-AILangHistory 'чернетка' $controls.Prompt.Text $controls.Session.Text
             Refresh-History
@@ -129,8 +154,23 @@ try {
         if ($script:job) { throw 'Попередня операція ще виконується' }
         $script:quotaCancelled = $false
         $script:jobKind = $purpose
-        $script:job = Start-Job -ScriptBlock { param($adapter,$root) Set-Location -LiteralPath $root; & $adapter } -ArgumentList (Join-Path $PSScriptRoot 'Адаптери/Ліміти-Codex.ps1'),$projectRoot
+        Save-CurrentPreferences
+        $script:job = Start-Job -ScriptBlock { param($adapter,$root) $ErrorActionPreference='Stop'; Set-Location -LiteralPath $root; & $adapter } -ArgumentList (Join-Path $PSScriptRoot 'Адаптери/Ліміти-Codex.ps1'),$projectRoot
         $controls.Status.Text = 'Читання квот…'
+    }
+    function Start-NameJob {
+        if ($script:job) { throw 'Дочекайтеся завершення поточної операції' }
+        $id=[guid]::Empty
+        if (![guid]::TryParse($controls.Session.Text.Trim(),[ref]$id) -or $id -eq [guid]::Empty) { throw 'Спочатку вкажіть дійсний UUID' }
+        Save-CurrentPreferences
+        $script:jobKind='session-name'
+        $script:job=Start-Job -ScriptBlock {
+            param($adapter,$session)
+            $ErrorActionPreference='Stop'
+            & $adapter -SessionId $session
+        } -ArgumentList (Join-Path $PSScriptRoot 'Адаптери/Назва-Codex.ps1'),$id.ToString()
+        $controls.ChatName.Tag=''
+        $controls.ChatName.Text='Отримання назви…'
     }
     $controls.History.Add_SelectionChanged({
         if ($controls.History.SelectedItem) {
@@ -140,7 +180,25 @@ try {
         }
     })
     $controls.Prompt.Add_TextChanged({ $script:editedAt = [DateTime]::UtcNow })
-    $controls.Session.Add_TextChanged({ $script:editedAt = [DateTime]::UtcNow })
+    $controls.Session.Add_TextChanged({
+        $script:editedAt = [DateTime]::UtcNow
+        if ($controls.ChatName.Tag -ne $controls.Session.Text.Trim()) { $controls.ChatName.Tag=''; $controls.ChatName.Text='Назва ще не отримана' }
+    })
+    $controls.Session.Add_LostFocus({ try { Save-CurrentPreferences } catch { $controls.Status.Text='Не вдалося зберегти UUID' } })
+    $controls.RefreshName.Add_Click({ try { Start-NameJob } catch { $controls.Status.Text=$_.Exception.Message } })
+    $controls.SelectCodex.Add_Click({
+        try {
+            if ($script:job) { throw 'Дочекайтеся завершення поточної операції' }
+            $picker=[Microsoft.Win32.OpenFileDialog]::new()
+            $picker.Filter='Codex executable (codex.exe)|codex.exe'
+            $picker.Title='Оберіть встановлений codex.exe'
+            if ($picker.ShowDialog($window)) {
+                $script:codexExecutable=$picker.FileName
+                Save-CurrentPreferences
+                $controls.Quota.Text='Шлях Codex збережено. Натисніть Перевірити квоти.'
+            }
+        } catch { $controls.Status.Text=$_.Exception.Message }
+    })
     $controls.NewPrompt.Add_Click({
         try { Save-Draft; $controls.Prompt.Clear(); $controls.History.SelectedIndex = -1; $null = $controls.Prompt.Focus() }
         catch { $controls.Status.Text = 'Не вдалося зберегти попередню чернетку' }
@@ -230,6 +288,15 @@ try {
             $data = @(Receive-Job -Job $script:job -ErrorAction SilentlyContinue)
             Remove-Job -Job $script:job
             $script:job = $null
+            if ($finishedKind -eq 'session-name') {
+                $metadata=$data | Select-Object -Last 1
+                if (!$failed -and $metadata -and $metadata.session -eq $controls.Session.Text.Trim() -and $metadata.name) {
+                    $controls.ChatName.Tag=$metadata.session
+                    $controls.ChatName.Text=$metadata.name
+                    Save-CurrentPreferences
+                } else { $controls.ChatName.Tag=''; $controls.ChatName.Text='Назва чату недоступна; UUID працює без назви' }
+                return
+            }
             if ($failed) {
                 if ($finishedKind -eq 'send') { Add-AILangDecision -RequestId $script:deliveryId -SessionId $script:inputs.session -Mode $script:inputs.approvalMode -Decision failed -Source scheduler -Action 'Доставка queue' -Reason 'Результат доставки невідомий або помилка; повтор вимкнений' }
                 Stop-Automation 'Операція завершилася помилкою. Перевірте стан сеансу; автоматичного повтору немає.'; return
@@ -250,7 +317,7 @@ try {
             }
             $quota = $data | Select-Object -Last 1
             if (!$quota -or $quota.status -ne 'known') {
-                $controls.Quota.Text = 'Квоти невідомі: перевірте CLI/авторизацію/мережу'
+                $controls.Quota.Text = if ($quota.reason) { $quota.reason + ' [' + $quota.code + ']' } else { 'Квоти невідомі: перевірте CLI/авторизацію/мережу' }
                 Stop-Automation 'Без достовірних квот автоматичне надсилання зупинено'
                 return
             }
@@ -305,13 +372,18 @@ try {
         } elseif (!$script:job) { $controls.Countdown.Text = '—' }
     }
     Refresh-History
+    Save-CurrentPreferences
+    if ($controls.Session.Text -and $script:codexExecutable) { try { Start-NameJob } catch {} }
     $timer = [Windows.Threading.DispatcherTimer]::new()
     $timer.Interval = [TimeSpan]::FromSeconds(1)
     $timer.Add_Tick({ try { Update-Timer } catch { Stop-Automation 'Помилка локального стану або параметрів; очікування зупинено' } })
     $window.Add_Closing({
+        $closingArgs=$_
         if ($script:job -and $script:jobKind -eq 'send') {
             $_.Cancel = $true
             $controls.Status.Text = 'Queue ще передає запит. Вимкніть повтор і дочекайтеся підтвердження перед закриттям.'
+        } else {
+            try { Save-Draft } catch { $closingArgs.Cancel=$true; $controls.Status.Text='Не вдалося зберегти UUID/чернетку. Перевірте доступ до локального стану.' }
         }
     })
     $window.Add_Closed({ $timer.Stop() })
