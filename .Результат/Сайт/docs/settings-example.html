@@ -1,0 +1,167 @@
+<!--
+Автор: Ruslan_A7 (RA7).
+Розробник: Codex (GPT-6.1 Sol) від OpenAI під управлінням RA7.
+Створено з використанням AILang.
+Ліцензія: RA7 Open Free License — https://ra7.iuid.cc/LICENSE.
+-->
+<!doctype html>
+<html lang="uk" class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#080d18">
+<title>Зразок налаштувань — AILang</title><meta name="description" content="Опишіть задум людською мовою. AILang допоможе ШІ-агенту реалізувати його за вашими правилами. Документація та стартовий ZIP для нового проєкту.">
+<meta property="og:title" content="Зразок налаштувань — AILang"><meta property="og:description" content="Опишіть задум людською мовою. AILang допоможе ШІ-агенту реалізувати його за вашими правилами. Документація та стартовий ZIP для нового проєкту."><meta property="og:type" content="website"><meta property="og:image" content="../assets/banner.png">
+<link rel="icon" href="../assets/logo.png" type="image/png"><link rel="stylesheet" href="../assets/site.css">
+<script src="../docs/search-data.js" defer></script><script src="../assets/site.js" defer></script></head><body><a class="skip" href="#main">До основного вмісту</a>
+<header class="header"><div class="wrap header-inner">
+<a class="brand" href="../index.html" aria-label="AILang"><img src="../assets/logo.png" alt="" width="39" height="39"><span><em>AI</em>Lang</span></a>
+<nav id="navigation" class="navigation" aria-label="Відкрити меню"><a href="../index.html#idea">Ідея</a><a href="../index.html#features">Можливості</a><a href="../docs/index.html" aria-current="page">Документація</a></nav>
+<div class="header-actions"><div class="languages" aria-label="Language"><strong aria-current="true">UK</strong><a href="../en/docs/settings-example.html" lang="en">EN</a></div>
+<a class="nav-download" href="../downloads/ailang-0.9.0-uk-starter.zip" download>Завантажити AILang<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 16v5h14v-5"/></svg></a>
+<button class="menu-toggle" data-menu aria-controls="navigation" aria-expanded="false" aria-label="Відкрити меню"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
+</div></header><main id="main" class="wrap docs-layout"><aside class="docs-sidebar"><a class="sidebar-title" href="index.html">AILang / Документація</a><label class="search-label" for="doc-search">Пошук у документації</label><input class="search-input" id="doc-search" type="search" maxlength="160" placeholder="Назва або текст правила…" autocomplete="off" aria-controls="search-results"><ul class="sidebar-links"><li><a href="index.html">Усі розділи</a></li><li><a href="entry.html">Вхідні інструкції</a></li><li><a href="overview.html">Що таке AILang</a></li><li><a href="agent.html">Поведінка агента</a></li><li><a href="structure.html">Структура проєкту</a></li><li><a href="naming.html">Правила іменування</a></li><li><a href="syntax.html">Синтаксис</a></li><li><a href="extensions.html">Розширення файлів</a></li><li><a href="configuration.html">Правила налаштувань</a></li><li><a href="settings.html">Налаштування проєкту</a></li><li><a href="settings-example.html" aria-current="page">Зразок налаштувань</a></li><li><a href="localization.html">Локалізація</a></li><li><a href="security.html">Безпека</a></li><li><a href="software.html">Взаємодія з ПЗ</a></li><li><a href="checks.html">Перевірки</a></li><li><a href="requirements.html">Додаткові вимоги</a></li><li><a href="automation.html">Ліміти та автономна робота</a></li><li><a href="tools.html">Інструменти</a></li><li><a href="attribution.html">Авторство та ліцензія</a></li><li><a href="initialization.html">Ініціалізація</a></li><li><a href="completion.html">Завершення розробки</a></li><li><a href="roadmap.html">План розвитку</a></li></ul></aside><div class="doc-main"><div class="breadcrumb"><a href="../index.html">AILang</a> / <a href="index.html">Документація</a></div><h1>Зразок налаштувань</h1><section id="search-results" class="search-results" aria-label="Пошук у документації" hidden></section><p class="source-notice">Вміст цього розділу відтворено з авторського файла. Налаштування-шаблон потрібно заповнити у власному проєкті.</p><div class="doc-actions"><a href="../source/settings-example.md" download="Налаштування (зразок).ail.md">Вихідний Markdown ↓</a><span>Редакція пакета: 0.9.0</span><button class="copy-button" data-copy="raw-source" data-success="Скопійовано" data-failure="Не вдалося скопіювати. Виділіть текст вручну.">Копіювати</button></div><p class="copy-status" id="copy-status" role="status"></p><details class="toc"><summary>На цій сторінці</summary><ul><li><a href="#section-1">Авторство та ліцензія</a></li><li><a href="#section-2">Локалізація AILang</a></li><li><a href="#section-3">Локалізація проекту</a></li><li><a href="#section-4">Стек технологій для реалізації</a></li><li><a href="#section-5">Правила версіювання</a></li><li><a href="#section-6">Дозволи</a></li><li><a href="#section-7">Ліміти</a></li><li><a href="#section-8">Інше</a></li></ul></details><article class="prose" lang="uk"><p><strong>ВАЖЛИВО! ЦЕ ЛИШЕ ЗРАЗОК НАЛАШТУВАНЬ - АГЕНТ НЕ ПОВИНЕН ВРАХОВУВАТИ ЦЕЙ ФАЙЛ ПІД ЧАС РОБОТИ ОКРІМ ВИПАДКІВ, КОЛИ ТРЕБА ДОПОМОГТИ АВТОРУ З НАЛАШТУВАННЯМ AILang. Справжні налаштування знаходяться в .AILang&gt;.Джерело&gt;.Налаштування&gt;Налаштування.ail.md</strong></p>
+<h2 id="section-1">Авторство та ліцензія</h2>
+<ul><li>
+автор ідеї: RA7
+</li><li>
+розробник: Codex (GPT-6.1 Sol) від OpenAI під управлінням RA7
+</li><li>
+ліцензія: <a href="https://ra7.iuid.cc/LICENSE">RA7 Open Free License</a>
+</li><li>
+копірайті: © 2026 AILang
+</li></ul>
+<h2 id="section-2">Локалізація AILang</h2>
+<ul><li>
+мова користувача: українська
+</li><li>
+мова системних файлів та папок: українська
+</li><li>
+мова вихідного коду в .Source: українська
+</li><li>
+мова коментарів у коді згенерованому агентом: за можливості - українська, інакше - англійська
+</li></ul>
+<h2 id="section-3">Локалізація проекту</h2>
+<ul><li>
+мова проекту: українська (пріоритетна), англійська, можливо пізніше ще французька, німецька, іспанська
+</li><li>
+мова документації: українська (пріоритетна), англійська
+</li><li>
+строк перекладів документації: перед завершенням підготовки версії 0.1.0
+</li></ul>
+<h2 id="section-4">Стек технологій для реалізації</h2>
+<ul><li>
+бажаний стек технологій для результату: Tauri 2, P2P, Rust, PHP, HTML, JS, CSS
+</li><li>
+підтримувані платформи: Windows 10/11+, Android 10+, Linux
+</li></ul>
+<h2 id="section-5">Правила версіювання</h2>
+<ul><li>
+починай з 0.1.0 згідно semver.org
+</li><li>
+версію 1.0.0 можна буде призначити лише після моєї вказівки
+</li><li>
+джерело поточної версії: VERSION; UI читає поточну версію з єдиного джерела
+</li></ul>
+<h2 id="section-6">Дозволи</h2>
+<ul><li>
+дозвіл на редагування в .Джерело: заборонено
+</li><li>
+дозвіл на використання іншого ПЗ: дозволено встановлення та використання ПЗ з наступного списку:
+<ul><li>
+Git
+</li><li>
+Docker
+</li><li>
+Samba
+</li><li>
+інше ПЗ на мою вимогу або після мого погодження
+</li></ul>
+</li><li>
+Git:
+<ul><li>
+використовуй Git та локальні коміти називаючи кожен коміт за принципом &quot;vX.Y.Z: опис&quot;
+</li><li>
+спільний коміт змін автора й агента: увімкнено
+</li><li>
+поки я не дозволю самостійно не роби push
+</li></ul>
+</li><li>
+GitHub: не публікуй нічого на GitHub поки я не зроблю самостійно першу публікацію в приватний або публічний репозиторій та не дам дозвіл на самостійну публікацію - лише після дозволу можна буде роби push у відповідний репозиторій
+</li></ul>
+<h2 id="section-7">Ліміти</h2>
+<ul><li>
+стандартний поріг п&#x27;ятигодинного ліміту: 10%
+</li><li>
+стандартний поріг тижневого ліміту: 5%
+</li></ul>
+<h2 id="section-8">Інше</h2>
+<ul><li>
+корінь проекту: ra7\ailang
+</li><li>
+режим приєднання AILang: новий проект
+</li><li>
+тести: дотримуйся правил .AILang&gt;.Джерело&gt;.Інструкції&gt;Тести.ail.md 
+</li><li>
+збірка: збирати нову версію лише після значних/критичних доповнень/правок/виправлень або за моєю вказівкою 
+</li><li>
+розгортання: в документацію додавай інструкцію для розгортання додатку на іншому пристрої, а також якщо це вимагає більше ніж просто скопіювати-вставити, то запропонуй створити скрипти для автоматизації розгортання
+</li></ul>
+<p>[<em>] Автор: RA7 [</em>] Ліцензія: <a href="https://ra7.iuid.cc/LICENSE">RA7 Open Free License</a> [*] © 2026 AILang</p></article><div id="raw-source" hidden># ЗРАЗОК налаштувань AILang:
+
+**ВАЖЛИВО! ЦЕ ЛИШЕ ЗРАЗОК НАЛАШТУВАНЬ - АГЕНТ НЕ ПОВИНЕН ВРАХОВУВАТИ ЦЕЙ ФАЙЛ ПІД ЧАС РОБОТИ ОКРІМ ВИПАДКІВ, КОЛИ ТРЕБА ДОПОМОГТИ АВТОРУ З НАЛАШТУВАННЯМ AILang. Справжні налаштування знаходяться в .AILang&gt;.Джерело&gt;.Налаштування&gt;Налаштування.ail.md**
+
+## Авторство та ліцензія
+- автор ідеї: RA7
+- розробник: Codex (GPT-6.1 Sol) від OpenAI під управлінням RA7
+- ліцензія: [RA7 Open Free License](https://ra7.iuid.cc/LICENSE)
+- копірайті: © 2026 AILang
+
+## Локалізація AILang
+- мова користувача: українська
+- мова системних файлів та папок: українська
+- мова вихідного коду в .Source: українська
+- мова коментарів у коді згенерованому агентом: за можливості - українська, інакше - англійська
+
+## Локалізація проекту
+- мова проекту: українська (пріоритетна), англійська, можливо пізніше ще французька, німецька, іспанська
+- мова документації: українська (пріоритетна), англійська
+- строк перекладів документації: перед завершенням підготовки версії 0.1.0
+
+## Стек технологій для реалізації
+- бажаний стек технологій для результату: Tauri 2, P2P, Rust, PHP, HTML, JS, CSS
+- підтримувані платформи: Windows 10/11+, Android 10+, Linux
+
+## Правила версіювання
+- починай з 0.1.0 згідно semver.org
+- версію 1.0.0 можна буде призначити лише після моєї вказівки
+- джерело поточної версії: VERSION; UI читає поточну версію з єдиного джерела
+
+## Дозволи
+- дозвіл на редагування в .Джерело: заборонено
+- дозвіл на використання іншого ПЗ: дозволено встановлення та використання ПЗ з наступного списку:
+    * Git
+    * Docker
+    * Samba
+    * інше ПЗ на мою вимогу або після мого погодження
+- Git:
+    * використовуй Git та локальні коміти називаючи кожен коміт за принципом &quot;vX.Y.Z: опис&quot;
+    * спільний коміт змін автора й агента: увімкнено
+    * поки я не дозволю самостійно не роби push
+- GitHub: не публікуй нічого на GitHub поки я не зроблю самостійно першу публікацію в приватний або публічний репозиторій та не дам дозвіл на самостійну публікацію - лише після дозволу можна буде роби push у відповідний репозиторій
+
+# Ліміти
+- стандартний поріг п&#x27;ятигодинного ліміту: 10%
+- стандартний поріг тижневого ліміту: 5%
+
+## Інше
+- корінь проекту: ra7\ailang
+- режим приєднання AILang: новий проект
+- тести: дотримуйся правил .AILang&gt;.Джерело&gt;.Інструкції&gt;Тести.ail.md 
+- збірка: збирати нову версію лише після значних/критичних доповнень/правок/виправлень або за моєю вказівкою 
+- розгортання: в документацію додавай інструкцію для розгортання додатку на іншому пристрої, а також якщо це вимагає більше ніж просто скопіювати-вставити, то запропонуй створити скрипти для автоматизації розгортання
+
+        [*] Автор: RA7
+        [*] Ліцензія: [RA7 Open Free License](https://ra7.iuid.cc/LICENSE)
+        [*] © 2026 AILang</div><nav class="doc-pagination" aria-label="Документація"><a href="settings.html"><small>← Попередній розділ</small>Налаштування проєкту</a><a href="localization.html"><small>Наступний розділ →</small>Локалізація</a></nav></div></main><footer class="footer"><div class="wrap"><div class="footer-top">
+<a class="brand" href="../index.html"><span><em>AI</em>Lang</span></a>
+<div class="footer-links"><a href="../docs/index.html">Документація</a><a href="https://github.com/Ruslan-A7/ailang">GitHub</a><a href="https://ra7.iuid.cc/LICENSE">RA7 Open Free License</a></div></div>
+<div class="credits"><p>Автор ідеї: <a href="https://ra7.iuid.cc">Ruslan_A7 (RA7)</a></p><p>Розробник: Codex (GPT-6.1 Sol) від OpenAI під управлінням RA7</p></div>
+<div class="footer-bottom"><span>Створено з використанням AILang. © 2026 AILang.</span><span class="version">v0.9.0</span></div></div></footer></body></html>

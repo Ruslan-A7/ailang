@@ -1,6 +1,6 @@
 <!--
 Author: Ruslan_A7 (RA7).
-Developer: Codex (GPT-6), OpenAI, under RA7's direction.
+Developer: Codex (GPT-6.1 Sol) від OpenAI під управлінням RA7.
 Created using AILang.
 License: RA7 Open Free License — https://ra7.iuid.cc/LICENSE.
 -->
@@ -12,7 +12,7 @@ From an author's idea to software that preserves its meaning.
 
 ![AILang — neural-network logo and language name](.Результат/Медіа/ailang-banner-neural.png)
 
-**Project version: 0.8.0** · [VERSION](VERSION)
+**Project version: 0.9.0** · [VERSION](VERSION)
 
 AILang is a set of instructions, specifications, and rules that help AI agents interpret natural-language software descriptions and implement the author's intent using an appropriate technology stack. Implementations may differ between agents; the goal is to preserve the meaning of the author's requirements as accurately as possible.
 
@@ -21,6 +21,10 @@ AILang is a set of instructions, specifications, and rules that help AI agents i
 [Entry instructions](.Джерело/AGENTS.md) · [AILang contents](.Джерело/AILang.md) · [Settings](.Джерело/.Налаштування/Налаштування.ail.md) · [Plan](.План/План.md)
 
 The linked rules and detailed documentation are currently in Ukrainian.
+
+**[Website and documentation](.Результат/Сайт/en/index.html)** · [New-project starter ZIP](.Результат/Сайт/downloads/ailang-0.9.0-uk-starter.zip) · [Website archive for your server](.Результат/Публікація/ailang-site-0.9.0.zip)
+
+The starter ZIP includes `.AILang/.Джерело`, a root `AGENTS.md` template, and the new project's directories. Extract it into an empty folder and follow `ПОЧАТОК.md`. See the [deployment guide](.Документація/Сайт.md) for uploading the website to your server.
 
 ## Get started
 
@@ -41,6 +45,10 @@ Author-owned materials are protected under AILang rules: `.Ідея` is read-onl
 | `.Idea` | `.Ідея` | Author-owned context |
 | `.Source` | `.Джерело` | AILang itself: entry files, rules, and settings |
 | `.Result/Media` | `.Результат/Медіа` | Selected logo and splash artwork |
+| `.Result/Site` | `.Результат/Сайт` | Static website, documentation, and downloads |
+| `.Result/Publication` | `.Результат/Публікація` | Website archive for server deployment |
+| `.Result/<language code>` | `.Результат/<language code>` | Future localized AILang editions |
+| `.Site` | `.Сайт` | Website styling and build sources |
 | `.Doc` | `.Документація` | Overview and visual identity |
 | `.Plan` | `.План` | Current status, questions, and next steps |
 | `.Dependencies` | `.Залежності` | Source-file relationships |
@@ -54,10 +62,10 @@ The [quota and automation rules](.Джерело/.Інструкції/Лімі�
 
 ## Development
 
-The Ukrainian rules are available for direct use. Planned work includes English, German, French, and Spanish translations, examples, a framework, VSCode extensions, and a presentation website. This English README introduces the project; the rules themselves are currently Ukrainian.
+The Ukrainian rules are available for direct use. The website has Ukrainian and English interfaces; its documentation reproduces the original Ukrainian rules. Planned work includes language editions in `.Результат/en`, `.Результат/de`, `.Результат/fr`, and `.Результат/es`, examples, a framework, and VSCode extensions.
 
 ## Attribution and license
 
-Author: **Ruslan_A7 (RA7)**. Developed with **Codex, OpenAI**, under RA7's direction. Language attribution is recorded in [.Джерело/AILang.md](.Джерело/AILang.md). Artwork was created with ImageGen; see the [design notes and prompts](.Документація/Бренд.md).
+Author: **Ruslan_A7 (RA7)**. Розробник: **Codex (GPT-6.1 Sol) від OpenAI під управлінням RA7**. Language attribution is recorded in [.Джерело/AILang.md](.Джерело/AILang.md). Artwork was created with ImageGen; see the [design notes and prompts](.Документація/Бренд.md).
 
 Created using AILang. © 2026 AILang. [RA7 Open Free License](https://ra7.iuid.cc/LICENSE).

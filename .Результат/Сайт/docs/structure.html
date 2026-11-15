@@ -1,0 +1,87 @@
+<!--
+Автор: Ruslan_A7 (RA7).
+Розробник: Codex (GPT-6.1 Sol) від OpenAI під управлінням RA7.
+Створено з використанням AILang.
+Ліцензія: RA7 Open Free License — https://ra7.iuid.cc/LICENSE.
+-->
+<!doctype html>
+<html lang="uk" class="no-js"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#080d18">
+<title>Структура проєкту — AILang</title><meta name="description" content="Опишіть задум людською мовою. AILang допоможе ШІ-агенту реалізувати його за вашими правилами. Документація та стартовий ZIP для нового проєкту.">
+<meta property="og:title" content="Структура проєкту — AILang"><meta property="og:description" content="Опишіть задум людською мовою. AILang допоможе ШІ-агенту реалізувати його за вашими правилами. Документація та стартовий ZIP для нового проєкту."><meta property="og:type" content="website"><meta property="og:image" content="../assets/banner.png">
+<link rel="icon" href="../assets/logo.png" type="image/png"><link rel="stylesheet" href="../assets/site.css">
+<script src="../docs/search-data.js" defer></script><script src="../assets/site.js" defer></script></head><body><a class="skip" href="#main">До основного вмісту</a>
+<header class="header"><div class="wrap header-inner">
+<a class="brand" href="../index.html" aria-label="AILang"><img src="../assets/logo.png" alt="" width="39" height="39"><span><em>AI</em>Lang</span></a>
+<nav id="navigation" class="navigation" aria-label="Відкрити меню"><a href="../index.html#idea">Ідея</a><a href="../index.html#features">Можливості</a><a href="../docs/index.html" aria-current="page">Документація</a></nav>
+<div class="header-actions"><div class="languages" aria-label="Language"><strong aria-current="true">UK</strong><a href="../en/docs/structure.html" lang="en">EN</a></div>
+<a class="nav-download" href="../downloads/ailang-0.9.0-uk-starter.zip" download>Завантажити AILang<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 16v5h14v-5"/></svg></a>
+<button class="menu-toggle" data-menu aria-controls="navigation" aria-expanded="false" aria-label="Відкрити меню"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button></div>
+</div></header><main id="main" class="wrap docs-layout"><aside class="docs-sidebar"><a class="sidebar-title" href="index.html">AILang / Документація</a><label class="search-label" for="doc-search">Пошук у документації</label><input class="search-input" id="doc-search" type="search" maxlength="160" placeholder="Назва або текст правила…" autocomplete="off" aria-controls="search-results"><ul class="sidebar-links"><li><a href="index.html">Усі розділи</a></li><li><a href="entry.html">Вхідні інструкції</a></li><li><a href="overview.html">Що таке AILang</a></li><li><a href="agent.html">Поведінка агента</a></li><li><a href="structure.html" aria-current="page">Структура проєкту</a></li><li><a href="naming.html">Правила іменування</a></li><li><a href="syntax.html">Синтаксис</a></li><li><a href="extensions.html">Розширення файлів</a></li><li><a href="configuration.html">Правила налаштувань</a></li><li><a href="settings.html">Налаштування проєкту</a></li><li><a href="settings-example.html">Зразок налаштувань</a></li><li><a href="localization.html">Локалізація</a></li><li><a href="security.html">Безпека</a></li><li><a href="software.html">Взаємодія з ПЗ</a></li><li><a href="checks.html">Перевірки</a></li><li><a href="requirements.html">Додаткові вимоги</a></li><li><a href="automation.html">Ліміти та автономна робота</a></li><li><a href="tools.html">Інструменти</a></li><li><a href="attribution.html">Авторство та ліцензія</a></li><li><a href="initialization.html">Ініціалізація</a></li><li><a href="completion.html">Завершення розробки</a></li><li><a href="roadmap.html">План розвитку</a></li></ul></aside><div class="doc-main"><div class="breadcrumb"><a href="../index.html">AILang</a> / <a href="index.html">Документація</a></div><h1>Структура проєкту</h1><section id="search-results" class="search-results" aria-label="Пошук у документації" hidden></section><p class="source-notice">Вміст цього розділу відтворено з авторського файла. Налаштування-шаблон потрібно заповнити у власному проєкті.</p><div class="doc-actions"><a href="../source/structure.md" download="Файлова структура.ail.md">Вихідний Markdown ↓</a><span>Редакція пакета: 0.9.0</span><button class="copy-button" data-copy="raw-source" data-success="Скопійовано" data-failure="Не вдалося скопіювати. Виділіть текст вручну.">Копіювати</button></div><p class="copy-status" id="copy-status" role="status"></p><details class="toc"><summary>На цій сторінці</summary><ul><li><a href="#section-1">Кожен проект, створений з використанням AILang повинен мати наступну мінімальну файлову структуру в кореневій папці проекту:</a></li></ul></details><article class="prose" lang="uk"><h2 id="section-1">Кожен проект, створений з використанням AILang <strong>повинен</strong> мати наступну мінімальну файлову структуру в кореневій папці проекту:</h2>
+<ul><li>
+AGENTS.md (головний файл з інструкціями проекту для агентів - <strong>повинен</strong> містити посилання на головний файл AILang з передачею подальшого контролю та керування агентом цим файлом і його інструкціями/вимогами, <strong>редагується тільки власником, агент тільки читає</strong>)
+</li><li>
+.Ідея (ідея, цілі, бажаний результат та функціонал проекту, контекст та предметна область, додаткові матеріали - призначені для кращого розуміння .Джерело та його предметної області, <strong>редагується тільки власником, агент тільки читає та надихається ідеями для пропозицій та реалізації</strong>)
+</li><li>
+.Джерело (вихідний &quot;код&quot; на AILang з описом проекту та потрібного функціоналу, <strong>за замовчуванням редагується тільки власником, агент тільки читає</strong> але в налаштуваннях можна дозволити моделі правити й файли в .Джерело - в таких випадках у такі файли за можливості модель <strong>має</strong> додавати стандартний коментар про авторство, розробника, ліцензію та використання AILang як і в файлах що модель створила сама)
+</li><li>
+.Документація (документація до проекту, <em>не обов&#x27;язково</em>, <strong>оформляється агентом</strong>)
+</li><li>
+.План (планування та контроль реалізації .Джерело, <strong>ведеться агентом</strong>)
+</li><li>
+.Результат (<strong>результат реалізації агентом</strong>, вихідний код на обраній мові, яка визначається в налаштуваннях мови)
+</li><li>
+.Постачальники (містить пакети та модулі інших розробників або з інших проектів, які є невід&#x27;ємною частиною поточного проекту для повторного використання вже продуманих та описаних вимог та інструкцій, що мають бути реалізовані в поточному проекті)
+</li><li>
+.Інструменти (місце для додаткових інструментів та файлів іншого допоміжного ПЗ, допоміжні інструменти створені самим агентом під час реалізації, яке використовується для розробки проекту, але не потрібно для роботи готового .Результат)
+</li><li>
+.Залежності (<strong>має</strong> містити визначені залежності між файлами проекту, <strong>керується агентом</strong>)
+</li><li>
+.AILang (головна папка мови AILang, <strong>агент тільки читає</strong>):
+<ul><li>
+.AILang&gt;.Джерело&gt;.Інструкції (інструкції та специфікації мови розбиті на файли та папки/підпапки за логічними блоками - сама мова)
+</li><li>
+.AILang&gt;.Джерело&gt;.Налаштування (налаштування мови, може розбиватись на різні файли розділені за призначенням/логікою/блоками)
+</li><li>
+.AILang&gt;.Джерело&gt;AGENTS.md (містить вимогу для агента перейти до головного файлу AILang)
+</li><li>
+.AILang&gt;.Джерело&gt;AILang.md (головний файл AILang з посиланням на інструкції та структуру проекту)
+</li></ul>
+</li></ul>
+<p>Відсутні в проекті та потрібні системні папки/файли агент <strong>повинен</strong> створити самостійно (коренем проекту <strong>має</strong> бути коренева папка, в якій запущено середовище/IDE і саме там мають знаходиться системні папки/файли AILang).</p>
+<p>[<em>] Автор: RA7 [</em>] Ліцензія: <a href="https://ra7.iuid.cc/LICENSE">RA7 Open Free License</a> [*] © 2026 AILang</p></article><div id="raw-source" hidden># Файлова структура проекту (системні файли та папки)
+
+## Кожен проект, створений з використанням AILang **повинен** мати наступну мінімальну файлову структуру в кореневій папці проекту:
+- AGENTS.md (головний файл з інструкціями проекту для агентів - **повинен** містити посилання на головний файл AILang з передачею подальшого контролю та керування агентом цим файлом і його інструкціями/вимогами, **редагується тільки власником, агент тільки читає**)
+
+- .Ідея (ідея, цілі, бажаний результат та функціонал проекту, контекст та предметна область, додаткові матеріали - призначені для кращого розуміння .Джерело та його предметної області, **редагується тільки власником, агент тільки читає та надихається ідеями для пропозицій та реалізації**)
+
+- .Джерело (вихідний &quot;код&quot; на AILang з описом проекту та потрібного функціоналу, **за замовчуванням редагується тільки власником, агент тільки читає** але в налаштуваннях можна дозволити моделі правити й файли в .Джерело - в таких випадках у такі файли за можливості модель **має** додавати стандартний коментар про авторство, розробника, ліцензію та використання AILang як і в файлах що модель створила сама)
+
+- .Документація (документація до проекту, *не обов&#x27;язково*, **оформляється агентом**)
+
+- .План (планування та контроль реалізації .Джерело, **ведеться агентом**)
+
+- .Результат (**результат реалізації агентом**, вихідний код на обраній мові, яка визначається в налаштуваннях мови)
+
+- .Постачальники (містить пакети та модулі інших розробників або з інших проектів, які є невід&#x27;ємною частиною поточного проекту для повторного використання вже продуманих та описаних вимог та інструкцій, що мають бути реалізовані в поточному проекті)
+
+- .Інструменти (місце для додаткових інструментів та файлів іншого допоміжного ПЗ, допоміжні інструменти створені самим агентом під час реалізації, яке використовується для розробки проекту, але не потрібно для роботи готового .Результат)
+
+- .Залежності (**має** містити визначені залежності між файлами проекту, **керується агентом**)
+
+- .AILang (головна папка мови AILang, **агент тільки читає**):
+    * .AILang&gt;.Джерело&gt;.Інструкції (інструкції та специфікації мови розбиті на файли та папки/підпапки за логічними блоками - сама мова)
+    * .AILang&gt;.Джерело&gt;.Налаштування (налаштування мови, може розбиватись на різні файли розділені за призначенням/логікою/блоками)
+    * .AILang&gt;.Джерело&gt;AGENTS.md (містить вимогу для агента перейти до головного файлу AILang)
+    * .AILang&gt;.Джерело&gt;AILang.md (головний файл AILang з посиланням на інструкції та структуру проекту)
+
+Відсутні в проекті та потрібні системні папки/файли агент **повинен** створити самостійно (коренем проекту **має** бути коренева папка, в якій запущено середовище/IDE і саме там мають знаходиться системні папки/файли AILang).
+
+        [*] Автор: RA7
+        [*] Ліцензія: [RA7 Open Free License](https://ra7.iuid.cc/LICENSE)
+        [*] © 2026 AILang</div><nav class="doc-pagination" aria-label="Документація"><a href="agent.html"><small>← Попередній розділ</small>Поведінка агента</a><a href="naming.html"><small>Наступний розділ →</small>Правила іменування</a></nav></div></main><footer class="footer"><div class="wrap"><div class="footer-top">
+<a class="brand" href="../index.html"><span><em>AI</em>Lang</span></a>
+<div class="footer-links"><a href="../docs/index.html">Документація</a><a href="https://github.com/Ruslan-A7/ailang">GitHub</a><a href="https://ra7.iuid.cc/LICENSE">RA7 Open Free License</a></div></div>
+<div class="credits"><p>Автор ідеї: <a href="https://ra7.iuid.cc">Ruslan_A7 (RA7)</a></p><p>Розробник: Codex (GPT-6.1 Sol) від OpenAI під управлінням RA7</p></div>
+<div class="footer-bottom"><span>Створено з використанням AILang. © 2026 AILang.</span><span class="version">v0.9.0</span></div></div></footer></body></html>
