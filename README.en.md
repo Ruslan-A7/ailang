@@ -1,85 +1,63 @@
-<!-- Author: Ruslan_A7 (RA7). Developed by RA7 with Codex (GPT-6), OpenAI. Created using AILang. License: https://ra7.iuid.cc/LICENSE. -->
+<!--
+Author: Ruslan_A7 (RA7).
+Developer: Codex (GPT-6), OpenAI, under RA7's direction.
+Created using AILang.
+License: RA7 Open Free License — https://ra7.iuid.cc/LICENSE.
+-->
 # AILang
 
 [Українська](README.md) · **English**
 
 From an author's idea to software that preserves its meaning.
 
-![AILang — a bridge between human language and software code](.Результат/Медіа/ailang-banner-neural.png)
+![AILang — neural-network logo and language name](.Результат/Медіа/ailang-banner-neural.png)
 
-**Current version: 0.6.6 · Ukrainian working specification · before the first stable release.**
+**Project version: 0.8.0** · [VERSION](VERSION)
 
-AILang is a set of instructions, specifications, and rules that help AI agents correctly interpret software descriptions written in natural language and implement the author's intent using an appropriate technology stack.
+AILang is a set of instructions, specifications, and rules that help AI agents interpret natural-language software descriptions and implement the author's intent using an appropriate technology stack. Implementations may differ between agents; the goal is to preserve the meaning of the author's requirements as accurately as possible.
 
-The author describes the software itself in `.Джерело` (the English name for this directory role is `.Source`). AILang tells the agent how to read that description, clarify ambiguities, work with requirements, settings, and permissions, and check whether the result matches the intent. Different agents may produce different implementations; the goal is to preserve the substance of the author's idea as accurately as possible.
+**AILang itself is already in [.Джерело](.Джерело/AGENTS.md).** Agents read these author-written Markdown files directly. No separately generated instruction package is needed.
 
-## What AILang provides
+[Entry instructions](.Джерело/AGENTS.md) · [AILang contents](.Джерело/AILang.md) · [Settings](.Джерело/.Налаштування/Налаштування.ail.md) · [Plan](.План/План.md)
 
-- Natural-language descriptions of desired behavior in Markdown.
-- Separation of author-owned sources, output, documentation, and tools.
-- Explicit requirements, stable IDs, and traceability from source to output to verification.
-- Per-project settings for language, technology, attribution, Git, and permissions.
-- A review of settings after changes, with agreement on any necessary migration.
-- Rules for security, privacy, dependencies, and preserving development context.
-
-[Getting started](.Результат/uk/Початок.md) · [Agent instructions](.Результат/uk/Інструкції/Agents.md) · [Overview](.Документація/Огляд.md) · [Plan](.План/План.md)
-
-The linked specification and detailed documentation are currently in Ukrainian. This English README introduces the project; an English instruction package is planned for a later release.
+The linked rules and detailed documentation are currently in Ukrainian.
 
 ## Get started
 
-1. Copy the **contents** of `.Результат/uk` into an `.AILang` directory in your project. Do not create a `uk` subdirectory inside `.AILang`.
-2. In your root `AGENTS.md`, link to `.AILang/Інструкції/Agents.md` and instruct the agent to read it before starting work.
-3. Review the configuration templates in the package. Set your project's languages, stack, attribution, license, permissions, and Git policy.
-4. Describe your software in the source directory whose name is defined by your language settings.
-5. Ask the agent to read AILang, the settings, and the source. Initial creation of missing structure is allowed only as an explicitly defined exception, without overwriting existing materials. **Under the completed AILang rules, the agent must not modify the author's idea or the AILang source description/code in `.Джерело` / `.Source`, even at the author's request or with their permission. Only explicitly defined AILang exceptions apply; ordinary permission does not create another exception.** The agent records suggestions in the plan, and the author edits these materials personally. The agent implements and edits the resulting program code in the output directory.
+1. Create an `.AILang` directory in your project.
+2. Copy **the entire `.Джерело` directory from this repository** into it, including the hidden `.Інструкції` and `.Налаштування` directories. The resulting entry path must be `.AILang/.Джерело/AGENTS.md`.
+3. In your project's root `AGENTS.md`, instruct the agent to read `.AILang/.Джерело/AGENTS.md`, the main `AILang.md`, and the linked rules.
+4. Fill in `.AILang/.Джерело/.Налаштування/Налаштування.ail.md`: attribution, languages, stack, platforms, permissions, Git, and quotas. `Налаштування (зразок).ail.md` is an example, not the active configuration.
+5. Describe **your product** using `.ail` or `.ail.md` files in your project's root `.Джерело` directory, and place ideas and context in `.Ідея`. Ask the agent to read them, prepare a plan, and implement the agreed requirements.
 
-For example, an author's Markdown description might begin like this:
+`.AILang/.Джерело` contains language rules; your project's root `.Джерело` contains your product description. System directory names depend on language settings.
 
-```markdown
-# Personal task list
-
-Idea: help the user plan their day.
-
-- **TASK-01: the user can add a task with a title.**
-- **TASK-02: completed tasks can be hidden using a separate toggle.**
-- TASK-01 acceptance criterion: after confirmation, the new task appears in the list.
-```
-
-This is an example of a requirements description. The agent selects the implementation, file formats, and checks according to the agreed stack and settings. This repository's author and license settings are not automatically applied to your product.
+Author-owned materials are protected under AILang rules: `.Ідея` is read-only for agents; editing `.Джерело` is prohibited by default but can be enabled through settings. Existing instructions in the installed `.AILang` are protected, with a defined exception for settings. The agent creates the resulting program code in the output directory.
 
 ## Repository contents
 
 | Path (English equivalent) | Actual repository path | Purpose |
 | --- | --- | --- |
-| `.Idea` | `.Ідея` | Original author-owned materials |
-| `.Source` | `.Джерело` | Description of AILang's own development |
-| `.Result/uk` | `.Результат/uk` | Current Ukrainian instruction package |
-| `.Result/Media` | `.Результат/Медіа` | Logo and splash artwork |
-| `.Settings` | `.Налаштування` | Settings for this project |
-| `.Doc` and `.Plan` | `.Документація` and `.План` | Implementation documentation, requirements, and continuation notes |
-| `.Tools/Automation` | `.Інструменти/Автоматизація` | Windows scheduler for Codex |
+| `.Idea` | `.Ідея` | Author-owned context |
+| `.Source` | `.Джерело` | AILang itself: entry files, rules, and settings |
+| `.Result/Media` | `.Результат/Медіа` | Selected logo and splash artwork |
+| `.Doc` | `.Документація` | Overview and visual identity |
+| `.Plan` | `.План` | Current status, questions, and next steps |
+| `.Dependencies` | `.Залежності` | Source-file relationships |
+| `VERSION` | `VERSION` | Current project version |
 
-This repository develops AILang itself, so it has no root `.AILang` directory. In projects using AILang, that directory contains one selected localization. Other instruction-package translations are planned after completion of the first Ukrainian version. English paths in the table are localized equivalents; use the actual Ukrainian paths to find files in this repository.
+English paths are localized equivalents; use the actual Ukrainian paths in this repository.
 
-## Codex scheduler for Windows
+## Autonomous work
 
-Launch [Show timers.cmd](.Інструменти/Автоматизація/Показати%20таймери.cmd) (the actual filename is `Показати таймери.cmd`). It requires Windows PowerShell 5.1 with WPF and an installed, authenticated Codex CLI supporting `queue` and app-server.
+The [quota and automation rules](.Джерело/.Інструкції/Ліміти%20та%20автоматизація.ail.md) specify waiting until the five-hour quota resets plus 1 minute, checking again, and continuing until the weekly threshold. The agent uses the waiting and quota-reading capabilities available in its environment. An instruction to work until the standard limit means stopping at the first threshold. Shutting down the device requires a separate explicit instruction.
 
-The scheduler provides a manual timer, a **05:05 (5 hours 5 minutes)** cycle, custom prompts, prompt history, a **«Надіслати зараз» (Send now)** button, quota checks, and a decision log. The session UUID persists between launches; the chat name appears alongside it when Codex provides one. The **Codex.exe…** button lets you select the CLI executable if needed. The scheduler's interface is currently Ukrainian.
+## Development
 
-Sending starts only after the corresponding user action. Send now uses manual approvals. Unknown quotas block delivery, and low quotas are subject to the configured thresholds. Acceptance by `queue` means that the prompt was accepted, not that the agent has completed its work.
-
-The UUID, chat name, history, and log are stored only in the local, Git-ignored `.Стан` directory. Do not put secrets in prompts.
-
-[Detailed guide](.Документація/Автоматизація.md) · [Script compatibility](.Документація/Сумісність-скриптів.md)
-
-## Development status
-
-The modular Ukrainian core, configuration templates, conformance, security and attribution rules, and supporting automation are implemented. The specification is still evolving. Complete end-to-end examples, a GitHub Pages website, other instruction-package localizations, and materials for release 1.0.0 remain on the roadmap.
+The Ukrainian rules are available for direct use. Planned work includes English, German, French, and Spanish translations, examples, a framework, VSCode extensions, and a presentation website. This English README introduces the project; the rules themselves are currently Ukrainian.
 
 ## Attribution and license
 
-Idea author: **Ruslan_A7 (RA7)**. Developed with **Codex (GPT-6), OpenAI**, using AILang. Artwork was created with ImageGen; see the [design notes and prompts](.Документація/Бренд.md).
+Author: **Ruslan_A7 (RA7)**. Developed with **Codex, OpenAI**, under RA7's direction. Language attribution is recorded in [.Джерело/AILang.md](.Джерело/AILang.md). Artwork was created with ImageGen; see the [design notes and prompts](.Документація/Бренд.md).
 
-Terms of use: [RA7 Open Free License](https://ra7.iuid.cc/LICENSE).
+Created using AILang. © 2026 AILang. [RA7 Open Free License](https://ra7.iuid.cc/LICENSE).
