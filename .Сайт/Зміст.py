@@ -2,12 +2,15 @@
 # Розробник: Codex (GPT-6.1 Sol) від OpenAI під управлінням RA7.
 # Створено з використанням AILang.
 # Ліцензія: RA7 Open Free License — https://ra7.iuid.cc/LICENSE.
-# Версія файла: 0.9.0.
+# Версія файла: 0.11.1.
 """Локалізований зміст сайту. Авторські правила не дублюються тут."""
 
 DEVELOPER = 'Codex (GPT-6.1 Sol) від OpenAI під управлінням RA7'
 LICENSE = 'https://ra7.iuid.cc/LICENSE'
 GITHUB = 'https://github.com/Ruslan-A7/ailang'
+PACKAGE_ROOT = '.Постачальники/RA7/AILang'
+PACKAGE_SOURCE = f'{PACKAGE_ROOT}/.Джерело'
+PACKAGE_SETTINGS = f'{PACKAGE_SOURCE}/.Налаштування/Налаштування.md'
 
 TEXT = {
     'uk': {
@@ -38,8 +41,8 @@ TEXT = {
         ],
         'start_label': '03 / ПОЧАТОК РОБОТИ', 'start_title': 'Від архіву до першої ідеї.',
         'steps': [
-            ('Завантажте та розпакуйте', 'Розпакуйте стартовий ZIP у порожню папку нового проєкту. Правила вже лежать у .AILang/.Джерело.'),
-            ('Заповніть налаштування', 'Вкажіть автора, розробника, мови, стек і дозволи у .AILang/.Джерело/.Налаштування/Налаштування.ail.md.'),
+            ('Завантажте та розпакуйте', f'Розпакуйте стартовий ZIP у порожню папку нового проєкту. Правила вже лежать у {PACKAGE_SOURCE}.'),
+            ('Заповніть налаштування', f'Вкажіть автора, розробника, мови, стек і дозволи у {PACKAGE_SETTINGS}.'),
             ('Опишіть продукт', 'Додайте контекст у .Ідея, а опис потрібної поведінки — у кореневу .Джерело файлами .ail або .ail.md.'),
             ('Передайте задум агенту', 'Попросіть прочитати AGENTS.md, правила та ваш опис. Агент має ознайомитися, уточнити суттєве й підготувати план.'),
         ],
@@ -90,8 +93,8 @@ TEXT = {
         ],
         'start_label': '03 / GET STARTED', 'start_title': 'From a download to your first idea.',
         'steps': [
-            ('Download and extract', 'Extract the starter ZIP into an empty project directory. The rules are already in .AILang/.Джерело.'),
-            ('Configure your project', 'Set attribution, languages, stack, and permissions in .AILang/.Джерело/.Налаштування/Налаштування.ail.md.'),
+            ('Download and extract', f'Extract the starter ZIP into an empty project directory. The rules are already in {PACKAGE_SOURCE}.'),
+            ('Configure your project', f'Set attribution, languages, stack, and permissions in {PACKAGE_SETTINGS}.'),
             ('Describe your product', 'Add context to .Ідея and describe the desired behavior in your root .Джерело using .ail or .ail.md files.'),
             ('Give the agent your intent', 'Ask it to read AGENTS.md, the rules, and your description. The agent should read, clarify important details, and plan.'),
         ],
@@ -121,23 +124,23 @@ TEXT = {
 DOCUMENTS = [
     ('entry', 'AGENTS.md', 'Вхідні інструкції', 'Entry instructions'),
     ('overview', 'AILang.md', 'Що таке AILang', 'What is AILang'),
-    ('agent', '.Інструкції/Поведінка агента.ail.md', 'Поведінка агента', 'Agent behavior'),
-    ('structure', '.Інструкції/Файлова структура.ail.md', 'Структура проєкту', 'Project structure'),
-    ('naming', '.Інструкції/Правила іменування.ail.md', 'Правила іменування', 'Naming rules'),
-    ('syntax', '.Інструкції/Синтаксис.ail.md', 'Синтаксис', 'Syntax'),
-    ('extensions', '.Інструкції/Розширення файлів.ail.md', 'Розширення файлів', 'File extensions'),
-    ('configuration', '.Налаштування/Загальні правила.ail.md', 'Правила налаштувань', 'Configuration rules'),
-    ('settings', '.Налаштування/Налаштування.ail.md', 'Налаштування проєкту', 'Project settings'),
-    ('settings-example', '.Налаштування/Налаштування (зразок).ail.md', 'Зразок налаштувань', 'Settings example'),
-    ('localization', '.Інструкції/Локалізація.ail.md', 'Локалізація', 'Localization'),
-    ('security', '.Інструкції/Безпека.ail.md', 'Безпека', 'Security'),
-    ('software', '.Інструкції/Інше ПЗ.ail.md', 'Взаємодія з ПЗ', 'Other software'),
-    ('checks', '.Інструкції/Тести.ail.md', 'Перевірки', 'Checks'),
-    ('requirements', '.Інструкції/Додаткові вимоги.ail.md', 'Додаткові вимоги', 'Additional requirements'),
-    ('automation', '.Інструкції/Ліміти та автоматизація.ail.md', 'Ліміти та автономна робота', 'Quotas and autonomous work'),
-    ('tools', '.Інструкції/Інструменти.ail.md', 'Інструменти', 'Tools'),
-    ('attribution', '.Інструкції/Авторство та ліцензія.ail.md', 'Авторство та ліцензія', 'Attribution and license'),
-    ('initialization', '.Інструкції/Ініціалізація.ail.md', 'Ініціалізація', 'Initialization'),
-    ('completion', '.Інструкції/Завершення розробки.ail.md', 'Завершення розробки', 'Completing development'),
-    ('roadmap', '.Інструкції/План розвитку.ail.md', 'План розвитку', 'Roadmap'),
+    ('agent', '.Інструкції/Поведінка агента.md', 'Поведінка агента', 'Agent behavior'),
+    ('structure', '.Інструкції/Файлова структура.md', 'Структура проєкту', 'Project structure'),
+    ('naming', '.Інструкції/Правила іменування.md', 'Правила іменування', 'Naming rules'),
+    ('syntax', '.Інструкції/Синтаксис.md', 'Синтаксис', 'Syntax'),
+    ('extensions', '.Інструкції/Розширення файлів.md', 'Розширення файлів', 'File extensions'),
+    ('configuration', '.Налаштування/Загальні правила.md', 'Правила налаштувань', 'Configuration rules'),
+    ('settings', '.Налаштування/Налаштування.md', 'Налаштування проєкту', 'Project settings'),
+    ('settings-example', '.Налаштування/Налаштування (зразок).md', 'Зразок налаштувань', 'Settings example'),
+    ('localization', '.Інструкції/Локалізація.md', 'Локалізація', 'Localization'),
+    ('security', '.Інструкції/Безпека.md', 'Безпека', 'Security'),
+    ('software', '.Інструкції/Інше ПЗ.md', 'Взаємодія з ПЗ', 'Other software'),
+    ('checks', '.Інструкції/Тести.md', 'Перевірки', 'Checks'),
+    ('requirements', '.Інструкції/Додаткові вимоги.md', 'Додаткові вимоги', 'Additional requirements'),
+    ('automation', '.Інструкції/Ліміти та автоматизація.md', 'Ліміти та автономна робота', 'Quotas and autonomous work'),
+    ('tools', '.Інструкції/Інструменти.md', 'Інструменти', 'Tools'),
+    ('attribution', '.Інструкції/Авторство та ліцензія.md', 'Авторство та ліцензія', 'Attribution and license'),
+    ('initialization', '.Інструкції/Ініціалізація.md', 'Ініціалізація', 'Initialization'),
+    ('completion', '.Інструкції/Завершення розробки.md', 'Завершення розробки', 'Completing development'),
+    ('roadmap', '.Інструкції/План розвитку.md', 'План розвитку', 'Roadmap'),
 ]

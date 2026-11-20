@@ -12,31 +12,33 @@ From an author's idea to software that preserves its meaning.
 
 ![AILang — neural-network logo and language name](.Результат/Медіа/ailang-banner-neural.png)
 
-**Project version: 0.9.0** · [VERSION](VERSION)
+**Project version: 0.11.1** · [VERSION](VERSION)
 
 AILang is a set of instructions, specifications, and rules that help AI agents interpret natural-language software descriptions and implement the author's intent using an appropriate technology stack. Implementations may differ between agents; the goal is to preserve the meaning of the author's requirements as accurately as possible.
 
 **AILang itself is already in [.Джерело](.Джерело/AGENTS.md).** Agents read these author-written Markdown files directly. No separately generated instruction package is needed.
 
-[Entry instructions](.Джерело/AGENTS.md) · [AILang contents](.Джерело/AILang.md) · [Settings](.Джерело/.Налаштування/Налаштування.ail.md) · [Plan](.План/План.md)
+[Entry instructions](.Джерело/AGENTS.md) · [AILang contents](.Джерело/AILang.md) · [Settings](.Джерело/.Налаштування/Налаштування.md) · [Plan](.План/План.md)
 
 The linked rules and detailed documentation are currently in Ukrainian.
 
-**[Website and documentation](.Результат/Сайт/en/index.html)** · [New-project starter ZIP](.Результат/Сайт/downloads/ailang-0.9.0-uk-starter.zip) · [Website archive for your server](.Результат/Публікація/ailang-site-0.9.0.zip)
+**[Website and documentation](.Результат/Сайт/en/index.html)** · [New-project starter ZIP](.Результат/Сайт/downloads/ailang-0.11.1-uk-starter.zip) · [Website archive for your server](.Результат/Публікація/ailang-site-0.11.1.zip)
 
-The starter ZIP includes `.AILang/.Джерело`, a root `AGENTS.md` template, and the new project's directories. Extract it into an empty folder and follow `ПОЧАТОК.md`. See the [deployment guide](.Документація/Сайт.md) for uploading the website to your server.
+The starter ZIP includes `.Постачальники/RA7/AILang/.Джерело`, a root `AGENTS.md` template, and the new project's directories. Extract it into an empty folder and follow `ПОЧАТОК.md`. See the [deployment guide](.Документація/Сайт.md) for uploading the website to your server.
 
 ## Get started
 
-1. Create an `.AILang` directory in your project.
-2. Copy **the entire `.Джерело` directory from this repository** into it, including the hidden `.Інструкції` and `.Налаштування` directories. The resulting entry path must be `.AILang/.Джерело/AGENTS.md`.
-3. In your project's root `AGENTS.md`, instruct the agent to read `.AILang/.Джерело/AGENTS.md`, the main `AILang.md`, and the linked rules.
-4. Fill in `.AILang/.Джерело/.Налаштування/Налаштування.ail.md`: attribution, languages, stack, platforms, permissions, Git, and quotas. `Налаштування (зразок).ail.md` is an example, not the active configuration.
+1. Create the `.Постачальники/RA7/AILang` directory in your project.
+2. Copy **the entire `.Джерело` directory from this repository** into it, including the hidden `.Інструкції` and `.Налаштування` directories. The resulting entry path must be `.Постачальники/RA7/AILang/.Джерело/AGENTS.md`.
+3. In your project's root `AGENTS.md`, instruct the agent to read `.Постачальники/RA7/AILang/.Джерело/AGENTS.md`, the main `AILang.md`, and the linked rules.
+4. Set attribution, languages, stack, platforms, permissions, Git, and quotas in `.Постачальники/RA7/AILang/.Джерело/.Налаштування/Налаштування.md`. See `Налаштування (зразок).md` for an example.
 5. Describe **your product** using `.ail` or `.ail.md` files in your project's root `.Джерело` directory, and place ideas and context in `.Ідея`. Ask the agent to read them, prepare a plan, and implement the agreed requirements.
 
-`.AILang/.Джерело` contains language rules; your project's root `.Джерело` contains your product description. System directory names depend on language settings.
+`.Постачальники/RA7/AILang/.Джерело` contains language rules; your project's root `.Джерело` contains your product description. System directory names depend on language settings.
 
-Author-owned materials are protected under AILang rules: `.Ідея` is read-only for agents; editing `.Джерело` is prohibited by default but can be enabled through settings. Existing instructions in the installed `.AILang` are protected, with a defined exception for settings. The agent creates the resulting program code in the output directory.
+Store third-party packages in `.Постачальники/<vendor>/<project>`. You can install an individual module at `.Постачальники/<vendor>/<project>/<module>`. When mentioning a package path in prose, you can omit the `.Постачальники/` prefix and write `RA7/AILang/.Джерело/AGENTS.md`, for example.
+
+Author-owned materials are protected under AILang rules: `.Ідея` is read-only for agents; editing `.Джерело` is prohibited by default but can be enabled through settings. Existing instructions in the installed `.Постачальники/RA7/AILang` are protected, with a defined exception for settings. The agent creates the resulting program code in the output directory.
 
 ## Repository contents
 
@@ -58,7 +60,7 @@ English paths are localized equivalents; use the actual Ukrainian paths in this 
 
 ## Autonomous work
 
-The [quota and automation rules](.Джерело/.Інструкції/Ліміти%20та%20автоматизація.ail.md) specify waiting until the five-hour quota resets plus 1 minute, checking again, and continuing until the weekly threshold. The agent uses the waiting and quota-reading capabilities available in its environment. An instruction to work until the standard limit means stopping at the first threshold. Shutting down the device requires a separate explicit instruction.
+The [quota and automation rules](.Джерело/.Інструкції/Ліміти%20та%20автоматизація.md) specify waiting until the five-hour quota resets plus 1 minute, checking again, and continuing until the weekly threshold. The agent uses the waiting and quota-reading capabilities available in its environment. An instruction to work until the standard limit means stopping at the first threshold. Shutting down the device requires a separate explicit instruction.
 
 ## Development
 

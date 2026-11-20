@@ -2,7 +2,7 @@
 # Розробник: Codex (GPT-6.1 Sol) від OpenAI під управлінням RA7.
 # Створено з використанням AILang.
 # Ліцензія: RA7 Open Free License — https://ra7.iuid.cc/LICENSE.
-# Версія файла: 0.9.0.
+# Версія файла: 0.11.1.
 """Статичний сайт і ZIP-пакети; лише стандартна бібліотека Python 3.11+."""
 from pathlib import Path
 from html import escape
@@ -13,6 +13,7 @@ import shutil
 import zipfile
 
 from Зміст import TEXT, DOCUMENTS, DEVELOPER, LICENSE, GITHUB
+from Зміст import PACKAGE_ROOT, PACKAGE_SOURCE, PACKAGE_SETTINGS
 
 ROOT = Path(__file__).resolve().parent.parent
 SOURCE = ROOT / '.Джерело'
@@ -117,7 +118,7 @@ def markdown(raw):
                     close_lists(indent-1); output.append(f'<{kind}><li>'); lists.append((indent, kind))
             else:
                 output.append(f'<{kind}><li>'); lists.append((indent, kind))
-            output.append(inline(item[3])); continue
+            output.append(inline(item[3].rstrip())); continue
         close_lists()
         if stripped.startswith('> '):
             flush(); output.append('<blockquote>' + inline(stripped[2:]) + '</blockquote>')
@@ -196,19 +197,20 @@ def landing(lang, package_size):
 <div><div class="code-window"><div class="code-top"><i></i><i></i><i></i><span class="file-name">{t['example_path']}</span></div><span class="example-label">{t['example_label']}</span><pre>{example}</pre></div><p class="caption">{t['example_note']}</p></div></div></section>
 <section class="features section" id="features"><div class="wrap"><span class="section-label">{t['features_label']}</span><div class="section-heading"><h2>{t['features_title']}</h2><span class="small-note">Markdown · .ail · .ail.md</span></div><div class="features-grid">{features}</div></div></section>
 <section class="section wrap" id="start"><span class="section-label">{t['start_label']}</span><h2>{t['start_title']}</h2><div class="start-grid"><div class="steps">{steps}</div><div class="tree"><div class="tree-title">{t['tree_label']}</div><pre>your-project/
-├── <b>.AILang/</b>
-│   ├── VERSION
-│   └── .Джерело/
-│       ├── AGENTS.md
-│       ├── AILang.md
-│       ├── .Інструкції/
-│       └── .Налаштування/
+├── <b>.Постачальники/</b>
+│   └── RA7/
+│       └── AILang/
+│           ├── VERSION
+│           └── .Джерело/
+│               ├── AGENTS.md
+│               ├── AILang.md
+│               ├── .Інструкції/
+│               └── .Налаштування/
 ├── <b>.Ідея/</b>
 ├── <b>.Джерело/</b>
 ├── .Результат/
 ├── .Документація/
 ├── .План/
-├── .Постачальники/
 ├── .Інструменти/
 ├── .Залежності/
 ├── AGENTS.md
@@ -244,7 +246,8 @@ def documentation(lang):
             article = notice + f'<p class="source-notice">{t["source_note"]}</p><div class="doc-actions"><a href="{raw_url}" download="{escape(Path(relative).name, quote=True)}">{t["source"]} ↓</a><span>{t["doc_version"]}: {VERSION}</span><button class="copy-button" data-copy="raw-source" data-success="{t["copied"]}" data-failure="{t["copy_failed"]}">{t["copy"]}</button></div><p class="copy-status" id="copy-status" role="status"></p>'
             if headings:
                 article += '<details class="toc"><summary>' + t['contents'] + '</summary><ul>' + ''.join(f'<li><a href="#{anchor}">{escape(label)}</a></li>' for anchor, label in headings) + '</ul></details>'
-            article += f'<article class="prose" lang="uk">{rendered}</article><div id="raw-source" hidden>{escape(raw)}</div>'
+            encoded_source = re.sub(r' +(?=\r?$)', lambda match: '&#32;' * len(match[0]), escape(raw), flags=re.M)
+            article += f'<article class="prose" lang="uk">{rendered}</article><div id="raw-source" hidden>{encoded_source}</div>'
             prev = docs[index-2] if index > 1 else ('index', '', t['all_docs'])
             after = docs[index] if index < len(docs) else None
             article += '<nav class="doc-pagination" aria-label="' + t['doc_title'] + '">'
@@ -259,22 +262,24 @@ def documentation(lang):
 def starter():
     destination = OUT / 'downloads' / STARTER_NAME
     destination.parent.mkdir(parents=True, exist_ok=True)
-    entry = HEADER + '''# Новий проєкт на AILang
+    entry = HEADER + f'''# Новий проєкт на AILang
 
 Ідея: передати агенту правила реалізації авторського опису.
 
-Прочитай .AILang/.Джерело/AGENTS.md, .AILang/.Джерело/AILang.md та всі пов’язані інструкції й налаштування. Сама AILang міститься в .AILang/.Джерело; опис продукту — у кореневій .Джерело, контекст — у .Ідея. До реалізації ознайомся з ними, уточни суттєве та підготуй план. Цей AGENTS.md власник може доповнити своїми вимогами.
+Прочитай {PACKAGE_SOURCE}/AGENTS.md, {PACKAGE_SOURCE}/AILang.md та всі пов’язані інструкції й налаштування. Опис продукту знаходиться в кореневій .Джерело, а контекст у .Ідея. До реалізації ознайомся з ними, уточни суттєве та підготуй план. Цей AGENTS.md власник може доповнити своїми вимогами.
 '''
     guide = HEADER + f'''# Початок роботи
 
 Ідея: налаштувати новий проєкт з AILang {VERSION}.
 
 1. Розпакуйте архів у порожню папку. Для існуючого проєкту спершу погодьте міграцію, не перезаписуйте власний AGENTS.md.
-2. Заповніть .AILang/.Джерело/.Налаштування/Налаштування.ail.md параметрами свого продукту. Зразок не є активною конфігурацією. Авторство шаблону не визначає авторство вашого продукту.
+2. Заповніть {PACKAGE_SETTINGS} параметрами свого продукту.
 3. Опишіть ідею в .Ідея, а потрібний функціонал — у кореневій .Джерело файлами .ail або .ail.md.
 4. Попросіть агента прочитати AGENTS.md і продовжити за правилами AILang.
 
-У пакеті збережені оригінальні українські файли правил. При читанні шляхів використовуйте фактичну .Налаштування з крапкою. Наступні переклади AILang розміщуються в .Результат репозиторію мови. Поточна версія нового продукту починається з 0.1.0; версія AILang записана в .AILang/VERSION.
+Кореневий VERSION містить початкову версію нового продукту 0.1.0. Версія AILang записана в {PACKAGE_ROOT}/VERSION.
+
+Зберігайте сторонні інструкції в `.Постачальники/<постачальник>/<проєкт>`. Окремий модуль можна додати як пакет у підпапку проєкту. У скорочених згадках опускайте лише `.Постачальники/`, наприклад `RA7/AILang/.Джерело/AGENTS.md`.
 
 Розробник AILang: {DEVELOPER}.
 Створено з використанням AILang. © 2026 AILang.
@@ -282,8 +287,8 @@ def starter():
 '''
     with zipfile.ZipFile(destination, 'w', zipfile.ZIP_DEFLATED) as archive:
         for relative, data in SOURCES.items():
-            archive.writestr('.AILang/.Джерело/' + relative, data)
-        archive.writestr('.AILang/VERSION', VERSION + '\n')
+            archive.writestr(f'{PACKAGE_SOURCE}/{relative}', data)
+        archive.writestr(f'{PACKAGE_ROOT}/VERSION', VERSION + '\n')
         archive.writestr('AGENTS.md', entry)
         archive.writestr('ПОЧАТОК.md', guide)
         archive.writestr('VERSION', '0.1.0\n')
@@ -294,7 +299,7 @@ def starter():
         if archive.testzip() is not None:
             raise ValueError('Пошкоджений ZIP')
         for relative, expected in HASHES.items():
-            if hashlib.sha256(archive.read('.AILang/.Джерело/' + relative)).hexdigest() != expected:
+            if hashlib.sha256(archive.read(f'{PACKAGE_SOURCE}/{relative}')).hexdigest() != expected:
                 raise ValueError('Авторський файл змінено в ZIP')
     digest = hashlib.sha256(destination.read_bytes()).hexdigest()
     write('downloads/' + STARTER_NAME + '.sha256', digest + '  ' + STARTER_NAME + '\n')
@@ -328,10 +333,14 @@ def main():
             raise ValueError('Джерело змінилося під час збирання')
     RELEASES.mkdir(parents=True, exist_ok=True)
     bundle = RELEASES / f'ailang-site-{VERSION}.zip'
+    current_downloads = {STARTER_NAME, STARTER_NAME + '.sha256'}
     with zipfile.ZipFile(bundle, 'w', zipfile.ZIP_DEFLATED) as archive:
         for path in sorted(OUT.rglob('*')):
             if path.is_file():
-                archive.write(path, str(path.relative_to(OUT)).replace('\\', '/'))
+                relative = path.relative_to(OUT)
+                if relative.parts[0] == 'downloads' and relative.name not in current_downloads:
+                    continue
+                archive.write(path, relative.as_posix())
     print(f'Site: {OUT}\nUpload archive: {bundle}\nStarter: {OUT / "downloads" / STARTER_NAME}\nSource files preserved: {len(SOURCES)}')
 
 
